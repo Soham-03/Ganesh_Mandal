@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Ganesh Mandal</string>
+    <string name="title_activity_register_mandal">RegisterMandalActivity</string>
+    <string name="title_activity_admin_login_page">AdminLoginPage</string>
+    <string name="title_activity_all_registered_mandals_list">AllRegisteredMandalsList</string>
+    <string name="title_activity_selected_mandals_after_first_audit">
+        SelectedMandalsAfterFirstAudit
+    </string>
+    <string name="title_activity_registered_mandal_info">RegisteredMandalInfo</string>
 </resources>

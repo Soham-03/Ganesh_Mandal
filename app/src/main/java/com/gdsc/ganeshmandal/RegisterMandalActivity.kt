@@ -13,10 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.gdsc.ganeshmandal.ui.theme.GaneshMandalTheme
-import com.gdsc.ganeshmandal.ui.theme.MainActScreen
 import com.gdsc.ganeshmandal.ui.theme.RegistrationForm
 
-class MainActivity : ComponentActivity() {
+class RegisterMandalActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,18 +26,17 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainActScreen()
+                    RegistrationForm()
                 }
             }
         }
     }
 }
-
 @RequiresApi(Build.VERSION_CODES.N)
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun GreetingPreview2() {
     GaneshMandalTheme {
-        MainActScreen()
+        RegistrationForm()
     }
 }

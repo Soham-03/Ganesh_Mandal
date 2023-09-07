@@ -1,12 +1,11 @@
 package com.gdsc.ganeshmandal.ui.theme
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.icu.util.Calendar
-import android.os.Build
 import android.text.TextUtils
 import android.widget.DatePicker
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,51 +35,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.firebase.firestore.FirebaseFirestore
+import com.gdsc.ganeshmandal.AdminLoginPage
+import com.gdsc.ganeshmandal.Mandal
 
-@RequiresApi(Build.VERSION_CODES.N)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegistrationForm(){
-    val db = FirebaseFirestore.getInstance()
-    var nameOfMandal by remember{
-        mutableStateOf(TextFieldValue(""))
-    }
-    var addOfMandal by remember{
-        mutableStateOf(TextFieldValue(""))
-    }
-    var contactPerson by remember{
-        mutableStateOf(TextFieldValue(""))
-    }
-    var mobileNo by remember{
-        mutableStateOf(TextFieldValue(""))
-    }
-    var totalAreaCovered by remember{
-        mutableStateOf(TextFieldValue(""))
-    }
-    var totalAreaOpen by remember{
-        mutableStateOf(TextFieldValue(""))
-    }
-    var dateOfTechnicalEvaluation by remember{
-        mutableStateOf("")
-    }
-    // Electrical Safety
-    var powerConsumedByMandal by remember{
-        mutableStateOf(TextFieldValue(""))
-    }
-    var sizeOfCableInstalled by remember{
-        mutableStateOf(TextFieldValue(""))
-    }
-    var typeOfCable by remember{
-        mutableStateOf(TextFieldValue(""))
-    }
-    var yesOrNo = arrayOf("Yes","No")
-    var mcb_mccbInstalled by remember{
-        mutableStateOf(TextFieldValue(""))
-    }
+fun RegisteredMandalInfo(mandal: Mandal){
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -94,9 +56,8 @@ fun RegistrationForm(){
             fontWeight = FontWeight.Bold
         )
         OutlinedTextField(
-            value = nameOfMandal,
+            value = mandal.nameOfMandal,
             onValueChange = {
-                nameOfMandal = it
             },
             placeholder = {
                 Text(text = "Name of Mandal")
@@ -104,17 +65,19 @@ fun RegistrationForm(){
             label = {
                 Text(text = "Name of Mandal")
             },
+            enabled = false,
             modifier = Modifier
                 .fillMaxWidth()
         )
         OutlinedTextField(
-            value = addOfMandal,
+            value = mandal.addOfMandal,
             onValueChange = {
-                addOfMandal = it
+//                addOfMandal = it
             },
             placeholder = {
                 Text(text = "Address of Mandal")
             },
+            enabled = false,
             label = {
                 Text(text = "Address of Mandal")
             },
@@ -122,13 +85,14 @@ fun RegistrationForm(){
                 .fillMaxWidth()
         )
         OutlinedTextField(
-            value = contactPerson,
+            value = mandal.contactPerson,
             onValueChange = {
-                contactPerson = it
+//                contactPerson = it
             },
             placeholder = {
                 Text(text = "Contact Person")
             },
+            enabled = false,
             label = {
                 Text(text = "Contact Person")
             },
@@ -136,9 +100,9 @@ fun RegistrationForm(){
                 .fillMaxWidth()
         )
         OutlinedTextField(
-            value = mobileNo,
+            value = mandal.mobileNo,
             onValueChange = {
-                if (it.text.length <= 10) mobileNo = it
+//                if (it.text.length <= 10) mobileNo = it
             },
             placeholder = {
                 Text(text = "Mobile No.")
@@ -146,6 +110,7 @@ fun RegistrationForm(){
             label = {
                 Text(text = "Mobile No.")
             },
+            enabled = false,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
             modifier = Modifier
                 .fillMaxWidth()
@@ -157,10 +122,11 @@ fun RegistrationForm(){
                 .fillMaxWidth()
         ) {
             OutlinedTextField(
-                value = totalAreaCovered,
+                value = mandal.totalAreaCovered,
                 onValueChange = {
-                    totalAreaCovered = it
+//                    totalAreaCovered = it
                 },
+                enabled = false,
                 placeholder = {
                     Text(text = "Total Area(Covered)")
                 },
@@ -177,13 +143,14 @@ fun RegistrationForm(){
                 .fillMaxWidth()
         ) {
             OutlinedTextField(
-                value = totalAreaOpen,
+                value = mandal.totalAreaOpen,
                 onValueChange = {
-                    totalAreaOpen = it
+//                    totalAreaOpen = it
                 },
                 placeholder = {
                     Text(text = "Total Area(Open)")
                 },
+                enabled = false,
                 label = {
                     Text(text = "Total Area(Open)")
                 },
@@ -191,36 +158,19 @@ fun RegistrationForm(){
             )
             Text("  Sq. ft.")
         }
-        val context = LocalContext.current
-        val calendar = Calendar.getInstance()
-        val year = calendar[Calendar.YEAR]
-        val month = calendar[Calendar.MONTH]
-        val dayOfMonth = calendar[Calendar.DAY_OF_MONTH]
-        val datePicker = DatePickerDialog(
-            context,
-            { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDayOfMonth: Int ->
-                dateOfTechnicalEvaluation = "$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear"
-            }, year, month, dayOfMonth
-        )
-        datePicker.datePicker.minDate = calendar.timeInMillis
 
-        Row() {
-            Column {
-                Text(text = "Date of Technical evaluation:")
-                Text(text = dateOfTechnicalEvaluation)
-            }
-            Button(onClick = {
-                datePicker.show()
-            }) {
-                Text(text = "Select date", fontSize = 12.sp)
-            }
+        Column {
+            Text(text = "Date of Technical evaluation:")
+            Text(text = mandal.dateOfTechnicalEvaluation)
         }
+
         Text("A. Electrical Safety", fontWeight = FontWeight.Bold)
         OutlinedTextField(
-            value = powerConsumedByMandal,
+            value = mandal.powerConsumedByMandal,
             onValueChange = {
-                powerConsumedByMandal = it
+//                powerConsumedByMandal = it
             },
+            enabled = false,
             placeholder = {
                 Text(text = "Power consumed by Mandal")
             },
@@ -231,13 +181,14 @@ fun RegistrationForm(){
                 .fillMaxWidth()
         )
         OutlinedTextField(
-            value = sizeOfCableInstalled,
+            value = mandal.sizeOfCableInstalled,
             onValueChange = {
-                sizeOfCableInstalled = it
+//                sizeOfCableInstalled = it
             },
             placeholder = {
                 Text(text = "Size of Cable Installed")
             },
+            enabled = false,
             label = {
                 Text(text = "Size of Cable Installed")
             },
@@ -245,9 +196,9 @@ fun RegistrationForm(){
                 .fillMaxWidth()
         )
         OutlinedTextField(
-            value = typeOfCable,
+            value = mandal.typeOfCable,
             onValueChange = {
-                typeOfCable = it
+//                typeOfCable = it
             },
             placeholder = {
                 Text(text = "Type of Cable ISI / FRLS")
@@ -255,13 +206,14 @@ fun RegistrationForm(){
             label = {
                 Text(text = "Type of Cable ISI / FRLSd")
             },
+            enabled = false,
             modifier = Modifier
                 .fillMaxWidth()
         )
         OutlinedTextField(
-            value = mcb_mccbInstalled,
+            value = mandal.mcb_mccbInstalled,
             onValueChange = {
-                mcb_mccbInstalled = it
+//                mcb_mccbInstalled = it
             },
             placeholder = {
                 Text(text = "MCB / MCCB installed")
@@ -269,12 +221,10 @@ fun RegistrationForm(){
             label = {
                 Text(text = "MCB / MCCB installed")
             },
+            enabled = false,
             modifier = Modifier
                 .fillMaxWidth()
         )
-        var expanded by remember { mutableStateOf(false) }
-        var expanded1 by remember { mutableStateOf(false) }
-        var _24ElectricianYesOrNo by remember { mutableStateOf(yesOrNo[1]) }
         Text(
             text = "24x7 Electrician Yes/No",
             fontSize = 18.sp,
@@ -287,39 +237,21 @@ fun RegistrationForm(){
                 .fillMaxWidth()
         ) {
             ExposedDropdownMenuBox(
-                expanded = expanded,
+                expanded = false,
                 onExpandedChange = {
-                    expanded = !expanded
+//                    expanded = !expanded
                 },
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
                 TextField(
-                    value = _24ElectricianYesOrNo,
+                    value = mandal._24ElectricianYesOrNo,
                     onValueChange = {},
                     readOnly = true,
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = false) },
                     modifier = Modifier.menuAnchor()
                 )
-
-                ExposedDropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-                    yesOrNo.forEach { item ->
-                        DropdownMenuItem(
-                            text = { Text(text = item) },
-                            onClick = {
-                                _24ElectricianYesOrNo = item
-                                expanded = false
-                            }
-                        )
-                    }
-                }
             }
-        }
-        var properTerminationOfCables by remember {
-            mutableStateOf(yesOrNo[1])
         }
         Text(
             text = "Proper Termination of Cables Yes/No",
@@ -333,61 +265,69 @@ fun RegistrationForm(){
                 .fillMaxWidth()
         ) {
             ExposedDropdownMenuBox(
-                expanded = expanded1,
+                expanded = false,
                 onExpandedChange = {
-                    expanded1 = !expanded1
+//                    expanded1 = !expanded1
                 },
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
                 TextField(
-                    value = properTerminationOfCables,
+                    value = mandal.properTerminationOfCables,
                     onValueChange = {},
                     readOnly = true,
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded1) },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = false) },
                     modifier = Modifier.menuAnchor()
                 )
-
-                ExposedDropdownMenu(
-                    expanded = expanded1,
-                    onDismissRequest = { expanded1 = false }
-                ) {
-                    yesOrNo.forEach { item ->
-                        DropdownMenuItem(
-                            text = { Text(text = item) },
-                            onClick = {
-                                properTerminationOfCables = item
-                                expanded1 = false
-                            }
-                        )
-                    }
-                }
             }
         }
         Text(
             text = "B. Fire Extinguisher",
             fontWeight = FontWeight.Bold
         )
-        var fireExtin1 by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var fireExtin2 by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var fireExt1Quant by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var fireExt2Quant by remember {
-            mutableStateOf(TextFieldValue(""))
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ){
+            OutlinedTextField(
+                value = mandal.fireExtin1,
+                onValueChange = {
+//                    fireExtin1 = it
+                },
+                placeholder = {
+                    Text(text = "Fire Extinguisher")
+                },
+                label = {
+                    Text(text = "Fire Extinguisher")
+                },
+                enabled = false,
+                modifier = Modifier
+                    .weight(2f)
+            )
+            OutlinedTextField(
+                value = mandal.fireExt1Quant,
+                onValueChange = {
+//                    fireExt1Quant = it
+                },
+                placeholder = {
+                    Text(text = "Quantity")
+                },
+                label = {
+                    Text(text = "Quantity")
+                },
+                enabled = false,
+                modifier = Modifier
+                    .weight(1f)
+            )
         }
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ){
             OutlinedTextField(
-                value = fireExtin1,
+                value = mandal.fireExtin2,
                 onValueChange = {
-                    fireExtin1 = it
+//                    fireExtin2 = it
                 },
+                enabled = false,
                 placeholder = {
                     Text(text = "Fire Extinguisher")
                 },
@@ -398,42 +338,11 @@ fun RegistrationForm(){
                     .weight(2f)
             )
             OutlinedTextField(
-                value = fireExt1Quant,
+                value = mandal.fireExt2Quant,
                 onValueChange = {
-                    fireExt1Quant = it
+//                    fireExt2Quant = it
                 },
-                placeholder = {
-                    Text(text = "Quantity")
-                },
-                label = {
-                    Text(text = "Quantity")
-                },
-                modifier = Modifier
-                .weight(1f)
-            )
-        }
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ){
-            OutlinedTextField(
-                value = fireExtin2,
-                onValueChange = {
-                    fireExtin2 = it
-                },
-                placeholder = {
-                    Text(text = "Fire Extinguisher")
-                },
-                label = {
-                    Text(text = "Fire Extinguisher")
-                },
-                modifier = Modifier
-                    .weight(2f)
-            )
-            OutlinedTextField(
-                value = fireExt2Quant,
-                onValueChange = {
-                    fireExt2Quant = it
-                },
+                enabled = false,
                 placeholder = {
                     Text(text = "Quantity")
                 },
@@ -449,25 +358,13 @@ fun RegistrationForm(){
             text = "C. Fire Detector",
             fontWeight = FontWeight.Bold
         )
-        var fireDetect1 by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var fireDetect2 by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var fireDetect1Quant by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var fireDetect2Quant by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ){
             OutlinedTextField(
-                value = fireDetect1,
+                value = mandal.fireDetect1,
                 onValueChange = {
-                    fireDetect1 = it
+//                    mandal.fireDetect1 = it
                 },
                 placeholder = {
                     Text(text = "Fire Detector")
@@ -475,13 +372,14 @@ fun RegistrationForm(){
                 label = {
                     Text(text = "Fire Detector")
                 },
+                enabled = false,
                 modifier = Modifier
                     .weight(2f)
             )
             OutlinedTextField(
-                value = fireDetect1Quant,
+                value = mandal.fireDetect1Quant,
                 onValueChange = {
-                    fireDetect1Quant = it
+//                    fireDetect1Quant = it
                 },
                 placeholder = {
                     Text(text = "Quantity")
@@ -489,6 +387,7 @@ fun RegistrationForm(){
                 label = {
                     Text(text = "Quantity")
                 },
+                enabled = false,
                 modifier = Modifier
                     .weight(1f)
             )
@@ -497,13 +396,14 @@ fun RegistrationForm(){
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ){
             OutlinedTextField(
-                value = fireDetect2,
+                value = mandal.fireDetect2,
                 onValueChange = {
-                    fireDetect2 = it
+//                    fireDetect2 = it
                 },
                 placeholder = {
                     Text(text = "Fire Detector")
                 },
+                enabled = false,
                 label = {
                     Text(text = "Fire Detector")
                 },
@@ -511,9 +411,9 @@ fun RegistrationForm(){
                     .weight(2f)
             )
             OutlinedTextField(
-                value = fireDetect2Quant,
+                value = mandal.fireDetect2Quant,
                 onValueChange = {
-                    fireDetect2Quant = it
+//                    fireDetect2Quant = it
                 },
                 placeholder = {
                     Text(text = "Quantity")
@@ -521,6 +421,7 @@ fun RegistrationForm(){
                 label = {
                     Text(text = "Quantity")
                 },
+                enabled = false,
                 modifier = Modifier
                     .weight(1f)
             )
@@ -531,25 +432,13 @@ fun RegistrationForm(){
             text = "D. CCTV System",
             fontWeight = FontWeight.Bold
         )
-        var typeOfCamera1 by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var typeOfCamera2  by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var typeOfCamera1Qty  by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var typeOfCamera2Qty  by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ){
             OutlinedTextField(
-                value = typeOfCamera1,
+                value = mandal.typeOfCamera1,
                 onValueChange = {
-                    typeOfCamera1 = it
+//                    typeOfCamera1 = it
                 },
                 placeholder = {
                     Text(text = "Type of Camera")
@@ -557,13 +446,14 @@ fun RegistrationForm(){
                 label = {
                     Text(text = "Type of Camera")
                 },
+                enabled = false,
                 modifier = Modifier
                     .weight(2f)
             )
             OutlinedTextField(
-                value = typeOfCamera1Qty,
+                value = mandal.typeOfCamera1Qty,
                 onValueChange = {
-                    typeOfCamera1Qty = it
+//                    typeOfCamera1Qty = it
                 },
                 placeholder = {
                     Text(text = "Quantity")
@@ -571,6 +461,7 @@ fun RegistrationForm(){
                 label = {
                     Text(text = "Quantity")
                 },
+                enabled = false,
                 modifier = Modifier
                     .weight(1f)
             )
@@ -579,9 +470,9 @@ fun RegistrationForm(){
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ){
             OutlinedTextField(
-                value = typeOfCamera2,
+                value = mandal.typeOfCamera2,
                 onValueChange = {
-                    typeOfCamera2 = it
+//                    typeOfCamera2 = it
                 },
                 placeholder = {
                     Text(text = "Type Of Camera")
@@ -589,32 +480,25 @@ fun RegistrationForm(){
                 label = {
                     Text(text = "Type of Camera")
                 },
+                enabled = false,
                 modifier = Modifier
                     .weight(2f)
             )
             OutlinedTextField(
-                value = typeOfCamera2Qty,
+                value = mandal.typeOfCamera2Qty,
                 onValueChange = {
-                    typeOfCamera2Qty = it
+//                    typeOfCamera2Qty = it
                 },
                 placeholder = {
                     Text(text = "Quantity")
                 },
+                enabled = false,
                 label = {
                     Text(text = "Quantity")
                 },
                 modifier = Modifier
                     .weight(1f)
             )
-        }
-        var dvr by remember{
-            mutableStateOf(TextFieldValue(""))
-        }
-        var channels by remember{
-            mutableStateOf(TextFieldValue(""))
-        }
-        var dvrQuantity by remember{
-            mutableStateOf(TextFieldValue(""))
         }
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -622,13 +506,14 @@ fun RegistrationForm(){
                 .fillMaxWidth()
         ){
             OutlinedTextField(
-                value = dvr,
+                value = mandal.dvr,
                 onValueChange = {
-                    dvr = it
+//                    dvr = it
                 },
                 placeholder = {
                     Text(text = "DVR")
                 },
+                enabled = false,
                 label = {
                     Text(text = "DVR")
                 },
@@ -636,9 +521,9 @@ fun RegistrationForm(){
                     .weight(2f)
             )
             OutlinedTextField(
-                value = channels,
+                value = mandal.channels,
                 onValueChange = {
-                    channels = it
+//                    channels = it
                 },
                 placeholder = {
                     Text(text = "Channels")
@@ -646,13 +531,14 @@ fun RegistrationForm(){
                 label = {
                     Text(text = "Channels")
                 },
+                enabled = false,
                 modifier = Modifier
                     .weight(1.5f)
             )
             OutlinedTextField(
-                value = dvrQuantity,
+                value = mandal.dvrQuantity,
                 onValueChange = {
-                    dvrQuantity = it
+//                    dvrQuantity = it
                 },
                 placeholder = {
                     Text(text = "Qunt")
@@ -660,20 +546,15 @@ fun RegistrationForm(){
                 label = {
                     Text(text = "Qunt")
                 },
+                enabled = false,
                 modifier = Modifier
                     .weight(1f)
             )
         }
-        var storageDetails by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var monitoringMethodology by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
         OutlinedTextField(
-            value = storageDetails,
+            value = mandal.storageDetails,
             onValueChange = {
-                storageDetails = it
+//                storageDetails = it
             },
             placeholder = {
                 Text(text = "Storage Details")
@@ -681,13 +562,14 @@ fun RegistrationForm(){
             label = {
                 Text(text = "Storage Details")
             },
+            enabled = false,
             modifier = Modifier
                 .fillMaxWidth()
         )
         OutlinedTextField(
-            value = monitoringMethodology,
+            value = mandal.monitoringMethodology,
             onValueChange = {
-                monitoringMethodology = it
+//                monitoringMethodology = it
             },
             placeholder = {
                 Text(text = "Monitoring Methodology")
@@ -695,29 +577,12 @@ fun RegistrationForm(){
             label = {
                 Text(text = "Monitoring Methodology")
             },
+            enabled = false,
             modifier = Modifier
                 .fillMaxWidth()
         )
 
         // E. Public Address system
-        var typeOfSpeaker1 by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var typeOfSpeaker2 by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var typeOfSpeaker1Quant by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var typeOfSpeaker2Quant by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var announcingTeam by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var announcingTeamQuant by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
         Text(
             text = "E. Public Address System",
             fontWeight = FontWeight.Bold
@@ -726,9 +591,9 @@ fun RegistrationForm(){
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ){
             OutlinedTextField(
-                value = typeOfSpeaker1,
+                value = mandal.typeOfSpeaker1,
                 onValueChange = {
-                    typeOfSpeaker1 = it
+//                    typeOfSpeaker1 = it
                 },
                 placeholder = {
                     Text(text = "Type of Speaker")
@@ -736,14 +601,50 @@ fun RegistrationForm(){
                 label = {
                     Text(text = "Type of Speaker")
                 },
+                enabled = false,
                 modifier = Modifier
                     .weight(2f)
             )
             OutlinedTextField(
-                value = typeOfSpeaker1Quant,
+                value = mandal.typeOfSpeaker1Quant,
                 onValueChange = {
-                    typeOfSpeaker1Quant = it
+//                    typeOfSpeaker1Quant = it
                 },
+                placeholder = {
+                    Text(text = "Quantity")
+                },
+                label = {
+                    Text(text = "Quantity")
+                },
+                enabled = false,
+                modifier = Modifier
+                    .weight(1f)
+            )
+        }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ){
+            OutlinedTextField(
+                value = mandal.typeOfSpeaker2,
+                onValueChange = {
+//                    typeOfSpeaker2 = it
+                },
+                placeholder = {
+                    Text(text = "Type of Speaker")
+                },
+                label = {
+                    Text(text = "Type of Speaker")
+                },
+                enabled = false,
+                modifier = Modifier
+                    .weight(2f)
+            )
+            OutlinedTextField(
+                value = mandal.typeOfSpeaker2Quant,
+                onValueChange = {
+//                    typeOfSpeaker2Quant = it
+                },
+                enabled = false,
                 placeholder = {
                     Text(text = "Quantity")
                 },
@@ -758,42 +659,11 @@ fun RegistrationForm(){
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ){
             OutlinedTextField(
-                value = typeOfSpeaker2,
+                value = mandal.announcingTeam,
                 onValueChange = {
-                    typeOfSpeaker2 = it
+//                    announcingTeam = it
                 },
-                placeholder = {
-                    Text(text = "Type of Speaker")
-                },
-                label = {
-                    Text(text = "Type of Speaker")
-                },
-                modifier = Modifier
-                    .weight(2f)
-            )
-            OutlinedTextField(
-                value = typeOfSpeaker2Quant,
-                onValueChange = {
-                    typeOfSpeaker2Quant = it
-                },
-                placeholder = {
-                    Text(text = "Quantity")
-                },
-                label = {
-                    Text(text = "Quantity")
-                },
-                modifier = Modifier
-                    .weight(1f)
-            )
-        }
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ){
-            OutlinedTextField(
-                value = announcingTeam,
-                onValueChange = {
-                    announcingTeam = it
-                },
+                enabled = false,
                 placeholder = {
                     Text(text = "Announcing Team")
                 },
@@ -804,10 +674,11 @@ fun RegistrationForm(){
                     .weight(2f)
             )
             OutlinedTextField(
-                value = announcingTeamQuant,
+                value = mandal.announcingTeamQuant,
                 onValueChange = {
-                    announcingTeamQuant = it
+//                    announcingTeamQuant = it
                 },
+                enabled = false,
                 placeholder = {
                     Text(text = "Quantity")
                 },
@@ -819,18 +690,6 @@ fun RegistrationForm(){
             )
         }
         //F. Metal and Bomb Detector
-        var typeOfDetector1 by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var typeOfDetector1Quant by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var typeOfDetector2 by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var typeOfDetector2Quant by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
         Text(
             text = "F. Metal and Bomb Detector",
             fontWeight = FontWeight.Bold
@@ -839,10 +698,11 @@ fun RegistrationForm(){
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ){
             OutlinedTextField(
-                value = typeOfDetector1,
+                value = mandal.typeOfDetector1,
                 onValueChange = {
-                    typeOfDetector1 = it
+//                    typeOfDetector1 = it
                 },
+                enabled = false,
                 placeholder = {
                     Text(text = "Type of Detector")
                 },
@@ -853,9 +713,9 @@ fun RegistrationForm(){
                     .weight(2f)
             )
             OutlinedTextField(
-                value = typeOfDetector1Quant,
+                value = mandal.typeOfDetector1Quant,
                 onValueChange = {
-                    typeOfDetector1Quant = it
+//                    typeOfDetector1Quant = it
                 },
                 placeholder = {
                     Text(text = "Quantity")
@@ -863,6 +723,7 @@ fun RegistrationForm(){
                 label = {
                     Text(text = "Quantity")
                 },
+                enabled = false,
                 modifier = Modifier
                     .weight(1f)
             )
@@ -871,9 +732,9 @@ fun RegistrationForm(){
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ){
             OutlinedTextField(
-                value = typeOfDetector2,
+                value = mandal.typeOfDetector2,
                 onValueChange = {
-                    typeOfDetector2 = it
+//                    typeOfDetector2 = it
                 },
                 placeholder = {
                     Text(text = "Type of Detector")
@@ -881,14 +742,16 @@ fun RegistrationForm(){
                 label = {
                     Text(text = "Type of Detector")
                 },
+                enabled = false,
                 modifier = Modifier
                     .weight(2f)
             )
             OutlinedTextField(
-                value = typeOfDetector2Quant,
+                value = mandal.typeOfDetector2Quant,
                 onValueChange = {
-                    typeOfDetector2Quant = it
+//                    typeOfDetector2Quant = it
                 },
+                enabled = false,
                 placeholder = {
                     Text(text = "Quantity")
                 },
@@ -900,36 +763,19 @@ fun RegistrationForm(){
             )
         }
         //G. Banners and First Aid Kit
-        var typeOfSign1 by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var typeOfSign1Quant by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var typeOfSign2 by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var typeOfSign2Quant by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var firstAidKit by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var firstAidKitQuant by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
         Text(
             text = "G. Banners and FirstAid Kit",
-                    fontWeight= FontWeight.Bold
+            fontWeight= FontWeight.Bold
         )
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ){
             OutlinedTextField(
-                value = typeOfSign1,
+                value = mandal.typeOfSign1,
                 onValueChange = {
-                    typeOfSign1 = it
+//                    typeOfSign1 = it
                 },
+                enabled = false,
                 placeholder = {
                     Text(text = "Type of Sign Boards")
                 },
@@ -940,10 +786,11 @@ fun RegistrationForm(){
                     .weight(2f)
             )
             OutlinedTextField(
-                value = typeOfSign1Quant,
+                value = mandal.typeOfSign1Quant,
                 onValueChange = {
-                    typeOfSign1Quant = it
+//                    typeOfSign1Quant = it
                 },
+                enabled = false,
                 placeholder = {
                     Text(text = "Quantity")
                 },
@@ -958,10 +805,11 @@ fun RegistrationForm(){
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ){
             OutlinedTextField(
-                value = typeOfSign2,
+                value = mandal.typeOfSign2,
                 onValueChange = {
-                    typeOfSign2= it
+//                    typeOfSign2= it
                 },
+                enabled = false,
                 placeholder = {
                     Text(text = "Type of Sign Boards")
                 },
@@ -972,10 +820,11 @@ fun RegistrationForm(){
                     .weight(2f)
             )
             OutlinedTextField(
-                value = typeOfSign2Quant,
+                value = mandal.typeOfSign2Quant,
                 onValueChange = {
-                    typeOfSign2Quant = it
+//                    typeOfSign2Quant = it
                 },
+                enabled = false,
                 placeholder = {
                     Text(text = "Quantity")
                 },
@@ -990,10 +839,11 @@ fun RegistrationForm(){
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ){
             OutlinedTextField(
-                value = firstAidKit,
+                value = mandal.firstAidKit,
                 onValueChange = {
-                    firstAidKit = it
+//                    firstAidKit = it
                 },
+                enabled = false,
                 placeholder = {
                     Text(text = "FirstAid Kit")
                 },
@@ -1004,9 +854,9 @@ fun RegistrationForm(){
                     .weight(2f)
             )
             OutlinedTextField(
-                value = firstAidKitQuant,
+                value = mandal.firstAidKitQuant,
                 onValueChange = {
-                    firstAidKitQuant = it
+//                    firstAidKitQuant = it
                 },
                 placeholder = {
                     Text(text = "Quantity")
@@ -1014,29 +864,22 @@ fun RegistrationForm(){
                 label = {
                     Text(text = "Quantity")
                 },
+                enabled = false,
                 modifier = Modifier
                     .weight(1f)
             )
         }
         //H. Other Measures Undertaken
-        var emergencyEvacuationPlanDetails by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var securityTeamDetails by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var trainingSecurityTeam by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
         Text(
             text = "H. Other Measures Undertaken",
             fontWeight= FontWeight.Bold
         )
         OutlinedTextField(
-            value = emergencyEvacuationPlanDetails,
+            value = mandal.emergencyEvacuationPlanDetails,
             onValueChange = {
-                emergencyEvacuationPlanDetails = it
+//                emergencyEvacuationPlanDetails = it
             },
+            enabled = false,
             placeholder = {
                 Text(text = "Emergency evacuation plan details")
             },
@@ -1047,10 +890,11 @@ fun RegistrationForm(){
                 .fillMaxWidth()
         )
         OutlinedTextField(
-            value = securityTeamDetails,
+            value = mandal.securityTeamDetails,
             onValueChange = {
-                securityTeamDetails = it
+//                securityTeamDetails = it
             },
+            enabled = false,
             placeholder = {
                 Text(text = "Security Team Details")
             },
@@ -1061,10 +905,11 @@ fun RegistrationForm(){
                 .fillMaxWidth()
         )
         OutlinedTextField(
-            value = trainingSecurityTeam,
+            value = mandal.trainingSecurityTeam,
             onValueChange = {
-               trainingSecurityTeam = it
+//                trainingSecurityTeam = it
             },
+            enabled = false,
             placeholder = {
                 Text(text = "Training to Security Team")
             },
@@ -1075,18 +920,16 @@ fun RegistrationForm(){
                 .fillMaxWidth()
         )
         // I. Remarks
-        var remarks by remember{
-            mutableStateOf(TextFieldValue(""))
-        }
         Text(
             text = "I. Remarks",
             fontWeight= FontWeight.Bold
         )
         OutlinedTextField(
-            value = remarks ,
+            value = mandal.remarks ,
             onValueChange = {
-                remarks = it
+//                remarks = it
             },
+            enabled = false,
             placeholder = {
                 Text(text = "Remarks")
             },
@@ -1096,17 +939,12 @@ fun RegistrationForm(){
             modifier = Modifier
                 .fillMaxWidth()
         )
-        var nameOfFSAIRepresentative by remember{
-            mutableStateOf(TextFieldValue(""))
-        }
-        var nameOfMandalRepresentative by remember{
-            mutableStateOf(TextFieldValue(""))
-        }
         OutlinedTextField(
-            value = nameOfFSAIRepresentative ,
+            value = mandal.nameOfFSAIRepresentative ,
             onValueChange = {
-                nameOfFSAIRepresentative = it
+//                mandal.nameOfFSAIRepresentative = it
             },
+            enabled = false,
             placeholder = {
                 Text(text = "Name Of FSAI Representative")
             },
@@ -1117,10 +955,11 @@ fun RegistrationForm(){
                 .fillMaxWidth()
         )
         OutlinedTextField(
-            value = nameOfMandalRepresentative ,
+            value = mandal.nameOfMandalRepresentative ,
             onValueChange = {
-                nameOfMandalRepresentative = it
+//                nameOfMandalRepresentative = it
             },
+            enabled = false,
             placeholder = {
                 Text(text = "Name Of Mandal Representative")
             },
@@ -1130,129 +969,34 @@ fun RegistrationForm(){
             modifier = Modifier
                 .fillMaxWidth()
         )
+        val context = LocalContext.current
+        Button(onClick ={
+            if(mandal.firstAuditStatus == "true"){
 
-        Button(onClick = {
-            if(
-                !TextUtils.isEmpty(nameOfMandal.text) &&
-                !TextUtils.isEmpty(addOfMandal.text) &&
-                !TextUtils.isEmpty(contactPerson.text) &&
-                !TextUtils.isEmpty(mobileNo.text) &&
-                !TextUtils.isEmpty(totalAreaCovered.text) &&
-                !TextUtils.isEmpty(totalAreaOpen.text) &&
-                !TextUtils.isEmpty(dateOfTechnicalEvaluation) &&
-                !TextUtils.isEmpty(powerConsumedByMandal.text) &&
-                !TextUtils.isEmpty(sizeOfCableInstalled.text) &&
-                !TextUtils.isEmpty(typeOfCable.text) &&
-                !TextUtils.isEmpty(mcb_mccbInstalled.text) &&
-                !TextUtils.isEmpty(_24ElectricianYesOrNo) &&
-                !TextUtils.isEmpty(properTerminationOfCables) &&
-                !TextUtils.isEmpty(fireExtin1.text) &&
-                !TextUtils.isEmpty(fireExt1Quant.text) &&
-                !TextUtils.isEmpty(fireExtin2.text) &&
-                !TextUtils.isEmpty(fireExt2Quant.text) &&
-                !TextUtils.isEmpty(fireDetect1.text) &&
-                !TextUtils.isEmpty(fireDetect1Quant.text) &&
-                !TextUtils.isEmpty(fireDetect2.text) &&
-                !TextUtils.isEmpty(fireDetect2Quant.text) &&
-                !TextUtils.isEmpty(typeOfCamera1.text) &&
-                !TextUtils.isEmpty(typeOfCamera1Qty.text) &&
-                !TextUtils.isEmpty(typeOfCamera2.text) &&
-                !TextUtils.isEmpty(typeOfCamera2Qty.text) &&
-                !TextUtils.isEmpty(dvr.text) &&
-                !TextUtils.isEmpty(channels.text) &&
-                !TextUtils.isEmpty(dvrQuantity.text) &&
-                !TextUtils.isEmpty(storageDetails.text) &&
-                !TextUtils.isEmpty(monitoringMethodology.text) &&
-                !TextUtils.isEmpty(typeOfSpeaker1.text) &&
-                !TextUtils.isEmpty(typeOfSpeaker1Quant.text) &&
-                !TextUtils.isEmpty(typeOfSpeaker2.text) &&
-                !TextUtils.isEmpty(typeOfSpeaker2Quant.text) &&
-                !TextUtils.isEmpty(announcingTeam.text) &&
-                !TextUtils.isEmpty(announcingTeamQuant.text) &&
-                !TextUtils.isEmpty(typeOfDetector1.text) &&
-                !TextUtils.isEmpty(typeOfDetector1Quant.text) &&
-                !TextUtils.isEmpty(typeOfDetector2.text) &&
-                !TextUtils.isEmpty(typeOfDetector2Quant.text) &&
-                !TextUtils.isEmpty(typeOfSign1.text) &&
-                !TextUtils.isEmpty(typeOfSign1Quant.text) &&
-                !TextUtils.isEmpty(typeOfSign2.text) &&
-                !TextUtils.isEmpty(typeOfSign2Quant.text) &&
-                !TextUtils.isEmpty(firstAidKit.text) &&
-                !TextUtils.isEmpty(firstAidKitQuant.text) &&
-                !TextUtils.isEmpty(emergencyEvacuationPlanDetails.text) &&
-                !TextUtils.isEmpty(securityTeamDetails.text) &&
-                !TextUtils.isEmpty(trainingSecurityTeam.text) &&
-                !TextUtils.isEmpty(remarks.text) &&
-                !TextUtils.isEmpty(nameOfFSAIRepresentative.text) &&
-                !TextUtils.isEmpty(nameOfMandalRepresentative.text)
-            ){
-                val hashMap = HashMap<String, Any>()
-                hashMap["nameOfMandal"] = nameOfMandal.text
-                hashMap["addOfMandal"] = addOfMandal.text
-                hashMap["contactPerson"] = contactPerson.text
-                hashMap["mobileNo"] = mobileNo.text
-                hashMap["totalAreaCovered"] = totalAreaCovered.text
-                hashMap["totalAreaOpen"] = totalAreaOpen.text
-                hashMap["dateOfTechnicalEvaluation"] = dateOfTechnicalEvaluation
-                hashMap["powerConsumedByMandal"] = powerConsumedByMandal.text
-                hashMap["sizeOfCableInstalled"] = sizeOfCableInstalled.text
-                hashMap["typeOfCable"] = typeOfCable.text
-                hashMap["mcb_mccbInstalled"] = mcb_mccbInstalled.text
-                hashMap["_24ElectricianYesOrNo"] = _24ElectricianYesOrNo
-                hashMap["properTerminationOfCables"] = properTerminationOfCables
-                hashMap["fireExtin1"] = fireExtin1.text
-                hashMap["fireExt1Quant"] = fireExt1Quant.text
-                hashMap["fireExtin2"] = fireExtin2.text
-                hashMap["fireExt2Quant"] = fireExt2Quant.text
-                hashMap["fireDetect1"] = fireDetect1.text
-                hashMap["fireDetect1Quant"] = fireDetect1Quant.text
-                hashMap["fireDetect2"] = fireDetect2.text
-                hashMap["fireDetect2Quant"] = fireDetect2Quant.text
-                hashMap["typeOfCamera1"] = typeOfCamera1.text
-                hashMap["typeOfCamera1Qty"] = typeOfCamera1Qty.text
-                hashMap["typeOfCamera2"] = typeOfCamera2.text
-                hashMap["typeOfCamera2Qty"] = typeOfCamera2Qty.text
-                hashMap["dvr"] =  dvr.text
-                //
-                hashMap["channels"] = channels.text
-                hashMap["dvrQuantity"] = dvrQuantity.text
-                hashMap["storageDetails"] = storageDetails.text
-                hashMap["monitoringMethodology"] = monitoringMethodology.text
-                hashMap["typeOfSpeaker1"] = typeOfSpeaker1.text
-                hashMap["typeOfSpeaker1Quant"] = typeOfSpeaker1Quant.text
-                hashMap["typeOfSpeaker2"] = typeOfSpeaker2.text
-                hashMap["typeOfSpeaker2Quant"] = typeOfSpeaker2Quant.text
-                hashMap["announcingTeam"] = announcingTeam.text
-                hashMap["announcingTeamQuant"] = announcingTeamQuant.text
-                hashMap["typeOfDetector1"] = typeOfDetector1.text
-                hashMap["typeOfDetector1Quant"] = typeOfDetector1Quant.text
-                hashMap["typeOfDetector2"] = typeOfDetector2.text
-                hashMap["typeOfDetector2Quant"] = typeOfDetector2Quant.text
-                hashMap["typeOfSign1"] = typeOfSign1.text
-                hashMap["typeOfSign1Quant"] = typeOfSign1Quant.text
-                hashMap["typeOfSign2"] = typeOfSign2.text
-                hashMap["typeOfSign2Quant"] = typeOfSign2Quant.text
-                hashMap["firstAidKit"] = firstAidKit.text
-                hashMap["firstAidKitQuant"] = firstAidKitQuant.text
-                hashMap["emergencyEvacuationPlanDetails"] = emergencyEvacuationPlanDetails.text
-                hashMap["securityTeamDetails"] = securityTeamDetails.text
-                hashMap["trainingSecurityTeam"] = trainingSecurityTeam.text
-                hashMap["remarks"] = remarks.text
-                hashMap["nameOfFSAIRepresentative"] = nameOfFSAIRepresentative.text
-                hashMap["nameOfMandalRepresentative"] = nameOfMandalRepresentative.text
-                hashMap["firstAuditStatus"] = false
-                hashMap["secondAuditStatus"] = false
-
-                db.collection("mandals").document().set(hashMap).addOnSuccessListener {
-                    Toast.makeText(context, "Mandal Registered Successfully", Toast.LENGTH_SHORT).show()
-                }
             }
             else{
-                Toast.makeText(context, "Some Fields is Missing", Toast.LENGTH_SHORT).show()
+                val intent = Intent(context, AdminLoginPage::class.java)
+                context.startActivity(intent)
             }
         }) {
             Text(
-                text = "Submit",
+                text = "First Audit: "+mandal.firstAuditStatus,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+
+        Button(onClick ={
+            if(mandal.secondAuditStatus == "true"){
+
+            }
+            else{
+                val intent = Intent(context, AdminLoginPage::class.java)
+                context.startActivity(intent)
+            }
+        }) {
+            Text(
+                text = "Second Audit Status: "+mandal.firstAuditStatus,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -1260,61 +1004,3 @@ fun RegistrationForm(){
 
     }
 }
-
-@RequiresApi(Build.VERSION_CODES.N)
-@Preview
-@Composable
-fun RegistrationFormPreview(){
-    RegistrationForm()
-}
-
-//nameOfMandal.text//
-//addOfMandal.text//
-//contactPerson.text//
-//mobileNo.text//
-//totalAreaCovered.text//
-//totalAreaOpen.text//
-//dateOfTechnicalEvaluation//
-//powerConsumedByMandal.text//
-//sizeOfCableInstalled.text//
-//typeOfCable.text//
-//mcb_mccbInstalled.text//
-//_24ElectricianYesOrNo//
-//properTerminationOfCables
-//fireExtin1.text
-//fireExt1Quant.text
-//fireExtin2.text
-//fireExt2Quant.text
-//fireDetect1.text
-//fireDetect1Quant.text
-//fireDetect2.text
-//fireDetect2Quant.text
-//typeOfCamera1.text
-//typeOfCamera1Qty.text
-//typeOfCamera2.text
-//typeOfCamera2Qty.text//
-//dvr.text
-//channels.text
-//dvrQuantity.text
-//storageDetails.text
-//monitoringMethodology.text
-//typeOfSpeaker1.text
-//typeOfSpeaker1Quant.text
-//typeOfSpeaker2.text
-//typeOfSpeaker2Quant.text
-//announcingTeam.text
-//announcingTeamQuant.text
-//typeOfDetector1.text
-//typeOfDetector1Quant.text
-//typeOfDetector2.text
-//typeOfDetector2Quant.text
-//typeOfSign1.text
-//typeOfSign1Quant.text
-//typeOfSign2.text
-//typeOfSign2Quant.text
-//firstAidKit.text
-//firstAidKitQuant.text
-//emergencyEvacuationPlanDetails.text
-//securityTeamDetails.text
-//trainingSecurityTeam.text
-//remarks.text//

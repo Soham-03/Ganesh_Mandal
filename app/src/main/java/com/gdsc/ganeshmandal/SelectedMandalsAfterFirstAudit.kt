@@ -1,10 +1,8 @@
 package com.gdsc.ganeshmandal
 
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -13,11 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.gdsc.ganeshmandal.ui.theme.GaneshMandalTheme
-import com.gdsc.ganeshmandal.ui.theme.MainActScreen
-import com.gdsc.ganeshmandal.ui.theme.RegistrationForm
 
-class MainActivity : ComponentActivity() {
-    @RequiresApi(Build.VERSION_CODES.N)
+class SelectedMandalsAfterFirstAudit : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -27,18 +22,25 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainActScreen()
+                    Greeting2("Android")
                 }
             }
         }
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.N)
+@Composable
+fun Greeting2(name: String, modifier: Modifier = Modifier) {
+    Text(
+        text = "Hello $name!",
+        modifier = modifier
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun GreetingPreview5() {
     GaneshMandalTheme {
-        MainActScreen()
+        Greeting2("Android")
     }
 }

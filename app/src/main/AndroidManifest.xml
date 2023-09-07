@@ -13,6 +13,31 @@
         android:theme="@style/Theme.GaneshMandal"
         tools:targetApi="31">
         <activity
+            android:name=".RegisteredMandalInfo"
+            android:exported="false"
+            android:label="@string/title_activity_registered_mandal_info"
+            android:theme="@style/Theme.GaneshMandal" />
+        <activity
+            android:name=".SelectedMandalsAfterFirstAudit"
+            android:exported="false"
+            android:label="@string/title_activity_selected_mandals_after_first_audit"
+            android:theme="@style/Theme.GaneshMandal" />
+        <activity
+            android:name=".AllRegisteredMandalsList"
+            android:exported="false"
+            android:label="@string/title_activity_all_registered_mandals_list"
+            android:theme="@style/Theme.GaneshMandal" />
+        <activity
+            android:name=".AdminLoginPage"
+            android:exported="false"
+            android:label="@string/title_activity_admin_login_page"
+            android:theme="@style/Theme.GaneshMandal" />
+        <activity
+            android:name=".RegisterMandalActivity"
+            android:exported="false"
+            android:label="@string/title_activity_register_mandal"
+            android:theme="@style/Theme.GaneshMandal" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"

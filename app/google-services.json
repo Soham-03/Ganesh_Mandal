@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "106263938337",
+    "project_id": "ganesh-mandal-fsai",
+    "storage_bucket": "ganesh-mandal-fsai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:106263938337:android:272e075db84f578a996a60",
+        "android_client_info": {
+          "package_name": "com.gdsc.ganeshmandal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "106263938337-buf79ja6jriih3ngqs366hmkob05m5v1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCp1XxPZ3b-USgnmN0U29Y4aOj-x6Ct9PY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "106263938337-buf79ja6jriih3ngqs366hmkob05m5v1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
