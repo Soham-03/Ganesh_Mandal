@@ -3,22 +3,32 @@ package com.gdsc.ganeshmandal
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import com.gdsc.ganeshmandal.ui.theme.GaneshMandalTheme
 import com.gdsc.ganeshmandal.ui.theme.MandalSingleRow
 import com.google.firebase.firestore.FirebaseFirestore
 
 class AllRegisteredMandalsList : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -100,10 +110,33 @@ class AllRegisteredMandalsList : ComponentActivity() {
                             println("List"+listOfMandal)
                             listOfMandals = listOfMandal
                         }
-                    LazyColumn(){
-                        for(mandal in listOfMandals){
-                            item {
-                                MandalSingleRow(mandal = mandal)
+                    var textFieldValue by remember {
+                        mutableStateOf(TextFieldValue(""))
+                    }
+                    Column(){
+                        OutlinedTextField(
+                            value = textFieldValue,
+                            onValueChange = {
+                                textFieldValue = it
+                            },
+                            leadingIcon = {
+                                Image(
+                                    imageVector = Icons.Outlined.Search,
+                                    contentDescription = "Search button",
+                                    modifier = Modifier
+                                        .clickable {
+                                            listOfMandals = search(textFieldValue, listOfMandal)
+                                        }
+                                )
+                            },
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                        )
+                        LazyColumn(){
+                            for(mandal in listOfMandals){
+                                item {
+                                    MandalSingleRow(mandal = mandal)
+                                }
                             }
                         }
                     }
@@ -111,6 +144,16 @@ class AllRegisteredMandalsList : ComponentActivity() {
             }
         }
     }
+}
+
+fun search(textFieldValue: TextFieldValue, listOfMandals: ArrayList<Mandal>): ArrayList<Mandal> {
+    val list = ArrayList<Mandal>()
+    for(mandal in listOfMandals){
+        if(mandal.nameOfMandal.contains(textFieldValue.text)){
+            list.add(mandal)
+        }
+    }
+    return list
 }
 
 @Preview(showBackground = true)
