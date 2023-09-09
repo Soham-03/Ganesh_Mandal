@@ -1,5 +1,6 @@
 package com.gdsc.ganeshmandal.ui.theme
 
+import android.content.Intent
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -34,6 +35,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.gdsc.ganeshmandal.Global
+import com.gdsc.ganeshmandal.MandalsSelectedFor1stAuditList
+import com.google.firebase.firestore.FirebaseFirestore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,6 +48,7 @@ fun FinalEvaluationForm(){
             .verticalScroll(rememberScrollState())
     ){
         val yesOrNo = arrayOf("None","Average","Good","Excellent")
+        val db = FirebaseFirestore.getInstance()
         Text(text = "A. Electrical safety audit", fontSize = 24.sp, fontWeight = FontWeight.Bold)
         Text(text = "1. Electrical Cabling", fontSize = 18.sp)
         var expanded1 by remember {
@@ -1745,6 +1750,22 @@ fun FinalEvaluationForm(){
                             pointsProactivenessOfFireSafety.toInt() +
                             pointsIsMandalInsured.toInt()
                     totalScoreText = totalScore.toString()
+                    val hash = HashMap<String, Any>()
+                    hash["firstAuditStatus"] = true
+                    hash["totalScore"] = totalScoreText
+                    hash["nameOf1stAuditor"] = auditorsName.text
+                    db.collection("mandals").document(Global.selectedMandal!!.mandalId)
+                        .update(hash)
+                        .addOnSuccessListener {
+                            db.collection("mandalsSelectedForNext").document(Global.selectedMandal!!.mandalId)
+                                .update(hash)
+                                .addOnSuccessListener {
+                                    Toast.makeText(context, "1st Audit Submitted Successfully", Toast.LENGTH_SHORT).show()
+                                    val intent = Intent(context, MandalsSelectedFor1stAuditList::class.java)
+                                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                                    context.startActivity(intent)
+                                }
+                        }
 
                 } else {
                     Toast.makeText(context, "Some Field is Missing", Toast.LENGTH_SHORT).show()

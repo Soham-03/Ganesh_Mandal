@@ -63,5 +63,7 @@ data class Mandal(
     val PublicAddressYesorNo: String,
     val MetalAndBombYesorNo: String,
     val FirstAidYesorNo: String,
-    val EmergencyTeamYesorNo: String
+    val EmergencyTeamYesorNo: String,
+    val totalScore: String,
+    val nameOf1stAuditor: String
 )

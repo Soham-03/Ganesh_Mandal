@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gdsc.ganeshmandal.AdminLoginPage
+import com.gdsc.ganeshmandal.AdminOptions
 import com.gdsc.ganeshmandal.AllRegisteredMandalsList
 import com.gdsc.ganeshmandal.RegisterMandalActivity
 
@@ -37,7 +38,7 @@ fun MainActScreen(){
         }
 
         Button(onClick = {
-            val intent = Intent(context, AllRegisteredMandalsList::class.java)
+            val intent = Intent(context, AdminOptions::class.java)
             context.startActivity(intent)
         }) {
             Text(text = "Admin\nLogin", fontSize = 24.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)

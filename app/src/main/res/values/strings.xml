@@ -7,4 +7,9 @@
         SelectedMandalsAfterFirstAudit
     </string>
     <string name="title_activity_registered_mandal_info">RegisteredMandalInfo</string>
+    <string name="title_activity_admin_options">AdminOptions</string>
+    <string name="title_activity_mandals_selected_for1st_audit_list">
+        MandalsSelectedFor1stAuditList
+    </string>
+    <string name="title_activity_top20_mandals_after1st_audit">Top20MandalsAfter1stAudit</string>
 </resources>

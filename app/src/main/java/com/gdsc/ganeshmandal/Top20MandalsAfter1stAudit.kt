@@ -34,8 +34,9 @@ import androidx.compose.ui.unit.sp
 import com.gdsc.ganeshmandal.ui.theme.GaneshMandalTheme
 import com.gdsc.ganeshmandal.ui.theme.MandalSingleRow
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
-class AllRegisteredMandalsList : ComponentActivity() {
+class Top20MandalsAfter1stAudit : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,11 +52,12 @@ class AllRegisteredMandalsList : ComponentActivity() {
                     }
                     val db = FirebaseFirestore.getInstance()
                     val listOfMandal = ArrayList<Mandal>()
-//                    listOfMandals = listOfMandal
                     var textFieldValue by remember {
                         mutableStateOf(TextFieldValue(""))
                     }
-                    db.collection("mandals").get()
+                    db.collection("mandals").orderBy("totalScore", Query.Direction.DESCENDING)
+                        .limit(20)
+                        .get()
                         .addOnSuccessListener {docs->
                             for(doc in docs){
                                 listOfMandal.add(
@@ -130,9 +132,12 @@ class AllRegisteredMandalsList : ComponentActivity() {
                             }
                             println("List"+listOfMandal)
                             if(TextUtils.isEmpty(textFieldValue.text)){
-                                    listOfMandals = listOfMandal
+                                listOfMandals = listOfMandal
                             }
 
+                        }
+                        .addOnFailureListener { e->
+                            e.printStackTrace()
                         }
                     Column(){
                         OutlinedTextField(
@@ -165,7 +170,7 @@ class AllRegisteredMandalsList : ComponentActivity() {
                             LazyColumn(){
                                 for(mandal in listOfMandals){
                                     item {
-                                        MandalSingleRow(mandal = mandal, show1stAuditStatus = false, show2ndAuditStatus = false)
+                                        MandalSingleRow(mandal = mandal, show1stAuditStatus = false, show2ndAuditStatus = true)
                                     }
                                 }
                             }
@@ -184,76 +189,10 @@ class AllRegisteredMandalsList : ComponentActivity() {
     }
 }
 
-fun search(textFieldValue: TextFieldValue, listOfMandals: ArrayList<Mandal>): ArrayList<Mandal> {
-    var list = ArrayList<Mandal>()
-    if(!TextUtils.isEmpty(textFieldValue.text)){
-        for(mandal in listOfMandals){
-            if(mandal.nameOfMandal.toString().contains(textFieldValue.text, true)){
-                list.add(mandal)
-            }
-        }
-    }
-    else{
-        list = listOfMandals
-    }
-    return list
-}
-
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview4() {
+fun GreetingPreview8() {
     GaneshMandalTheme {
-
+//        Greeting("Android")
     }
 }
-
-//nameOfMandal
-//addOfMandal
-//contactPerson
-//mobileNo
-//totalAreaCovered
-//totalAreaOpen
-//dateOfTechnicalEvaluation
-//powerConsumedByMandal
-//sizeOfCableInstalled
-//typeOfCable
-//mcb_mccbInstalled
-//_24ElectricianYesOrNo
-//properTerminationOfCables
-//fireExtin1
-//fireExt1Quant
-//fireExtin2
-//fireExt2Quant
-//fireDetect1
-//fireDetect1Quant
-//fireDetect2
-//fireDetect2Quant
-//typeOfCamera1
-//typeOfCamera1Qty
-//typeOfCamera2
-//typeOfCamera2Qty
-//dvr
-//channels
-//dvrQuantity
-//storageDetails
-//monitoringMethodology
-//typeOfSpeaker1
-//typeOfSpeaker1Quant
-//typeOfSpeaker2
-//typeOfSpeaker2Quant
-//announcingTeam
-//announcingTeamQuant
-//typeOfDetector1
-//typeOfDetector1Quant
-//typeOfDetector2
-//typeOfDetector2Quant
-//typeOfSign1
-//typeOfSign1Quant
-//typeOfSign2
-//typeOfSign2Quant
-//firstAidKit
-//firstAidKitQuant
-//emergencyEvacuationPlanDetails
-//securityTeamDetails
-//trainingSecurityTeam
-//remarks

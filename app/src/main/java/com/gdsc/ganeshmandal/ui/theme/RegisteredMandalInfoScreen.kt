@@ -6,6 +6,7 @@ import android.icu.util.Calendar
 import android.text.TextUtils
 import android.widget.DatePicker
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,7 +43,7 @@ import com.gdsc.ganeshmandal.Mandal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisteredMandalInfo(mandal: Mandal){
+fun RegisteredMandalInfoScreen(mandal: Mandal, firstAuditStatus: Boolean, secondAuditStatus: Boolean){
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -970,37 +971,47 @@ fun RegisteredMandalInfo(mandal: Mandal){
                 .fillMaxWidth()
         )
         val context = LocalContext.current
-        Button(onClick ={
-            if(mandal.firstAuditStatus == "true"){
+        AnimatedVisibility(visible = firstAuditStatus) {
+            Button(onClick ={
+                if(mandal.firstAuditStatus == "true"){
 
+                }
+                else{
+                    val intent = Intent(context, AdminLoginPage::class.java)
+                    context.startActivity(intent)
+                }
+            }) {
+                Text(
+                    text = "First Audit: "+mandal.firstAuditStatus,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
-            else{
-                val intent = Intent(context, AdminLoginPage::class.java)
-                context.startActivity(intent)
-            }
-        }) {
+        }
+        AnimatedVisibility(visible = mandal.totalScore.isNotEmpty() || mandal.totalScore.isNotBlank() || mandal.firstAuditStatus == "true") {
             Text(
-                text = "First Audit: "+mandal.firstAuditStatus,
+                text = "First Audit Score: "+mandal.totalScore,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
         }
 
-        Button(onClick ={
-            if(mandal.secondAuditStatus == "true"){
+        AnimatedVisibility(visible = secondAuditStatus) {
+            Button(onClick ={
+                if(mandal.secondAuditStatus == "true"){
 
+                }
+                else{
+                    val intent = Intent(context, AdminLoginPage::class.java)
+                    context.startActivity(intent)
+                }
+            }) {
+                Text(
+                    text = "Second Audit Status: "+mandal.secondAuditStatus,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
-            else{
-                val intent = Intent(context, AdminLoginPage::class.java)
-                context.startActivity(intent)
-            }
-        }) {
-            Text(
-                text = "Second Audit Status: "+mandal.firstAuditStatus,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
         }
-
     }
 }

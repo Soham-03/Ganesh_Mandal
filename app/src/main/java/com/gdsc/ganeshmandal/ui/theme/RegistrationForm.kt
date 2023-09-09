@@ -1,6 +1,7 @@
 package com.gdsc.ganeshmandal.ui.theme
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Build
 import android.text.TextUtils
@@ -39,6 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.gdsc.ganeshmandal.MainActivity
 import com.google.firebase.firestore.FirebaseFirestore
 
 @RequiresApi(Build.VERSION_CODES.N)
@@ -1638,6 +1640,8 @@ fun RegistrationForm(){
                 hashMap["MetalAndBombYesorNo"] = MetalAndBombYesorNo
                 hashMap["FirstAidYesorNo"] = FirstAidYesorNo
                 hashMap["EmergencyTeamYesorNo"] = EmergencyTeamYesorNo
+                hashMap["totalScore"] = ""
+                hashMap["nameOf1stAuditor"] = ""
                 val ref = db.collection("mandals").document()
                 ref.set(hashMap).addOnSuccessListener {
                     Toast.makeText(context, "Mandal Registered Successfully", Toast.LENGTH_SHORT).show()
@@ -1668,7 +1672,15 @@ fun RegistrationForm(){
                     if(totalYesses > 3 && MCBInstalledYesorNo == "Yes" && FireExtinguishersYesorNo == "Yes" && CCTVCameraYesorNo == "Yes"){
                         db.collection("mandalsSelectedForNext").document(ref.id).set(hashMap).addOnSuccessListener {
                             Toast.makeText(context, "Mandal Qualified for next round", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(context, MainActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                            context.startActivity(intent)
                         }
+                    }
+                    else{
+                        val intent = Intent(context, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                        context.startActivity(intent)
                     }
                 }
             }
