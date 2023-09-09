@@ -258,6 +258,53 @@ fun RegistrationForm(){
             modifier = Modifier
                 .fillMaxWidth()
         )
+        Text(
+            text = "MCB/ MCCB Installed Yes/No",
+            fontSize = 18.sp,
+            textAlign = TextAlign.Start,
+            modifier = Modifier
+                .align(Alignment.Start)
+        )
+        var expandedMcb by remember { mutableStateOf(false) }
+        var MCBInstalledYesorNo by remember {
+            mutableStateOf(yesOrNo[1])
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            ExposedDropdownMenuBox(
+                expanded = expandedMcb,
+                onExpandedChange = {
+                    expandedMcb = !expandedMcb
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                TextField(
+                    value = MCBInstalledYesorNo,
+                    onValueChange = {},
+                    readOnly = true,
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedMcb) },
+                    modifier = Modifier.menuAnchor()
+                )
+
+                ExposedDropdownMenu(
+                    expanded = expandedMcb,
+                    onDismissRequest = { expandedMcb = false }
+                ) {
+                    yesOrNo.forEach { item ->
+                        DropdownMenuItem(
+                            text = { Text(text = item) },
+                            onClick = {
+                                MCBInstalledYesorNo = item
+                                expandedMcb = false
+                            }
+                        )
+                    }
+                }
+            }
+        }
         OutlinedTextField(
             value = mcb_mccbInstalled,
             onValueChange = {
@@ -380,6 +427,53 @@ fun RegistrationForm(){
         var fireExt2Quant by remember {
             mutableStateOf(TextFieldValue(""))
         }
+        Text(
+            text = "Fire Extinguishers Yes/No",
+            fontSize = 18.sp,
+            textAlign = TextAlign.Start,
+            modifier = Modifier
+                .align(Alignment.Start)
+        )
+        var expandedFireExtinguishers by remember { mutableStateOf(false) }
+        var FireExtinguishersYesorNo by remember {
+            mutableStateOf(yesOrNo[1])
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            ExposedDropdownMenuBox(
+                expanded = expandedFireExtinguishers,
+                onExpandedChange = {
+                    expandedFireExtinguishers = !expandedFireExtinguishers
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                TextField(
+                    value = FireExtinguishersYesorNo,
+                    onValueChange = {},
+                    readOnly = true,
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedFireExtinguishers) },
+                    modifier = Modifier.menuAnchor()
+                )
+
+                ExposedDropdownMenu(
+                    expanded = expandedFireExtinguishers,
+                    onDismissRequest = { expandedFireExtinguishers = false }
+                ) {
+                    yesOrNo.forEach { item ->
+                        DropdownMenuItem(
+                            text = { Text(text = item) },
+                            onClick = {
+                                FireExtinguishersYesorNo = item
+                                expandedFireExtinguishers = false
+                            }
+                        )
+                    }
+                }
+            }
+        }
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ){
@@ -461,6 +555,55 @@ fun RegistrationForm(){
         var fireDetect2Quant by remember {
             mutableStateOf(TextFieldValue(""))
         }
+
+        Text(
+            text = "Fire Detectors Yes/No",
+            fontSize = 18.sp,
+            textAlign = TextAlign.Start,
+            modifier = Modifier
+                .align(Alignment.Start)
+        )
+        var expandedFireDetectors by remember { mutableStateOf(false) }
+        var FireDetectorsYesorNo by remember {
+            mutableStateOf(yesOrNo[1])
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            ExposedDropdownMenuBox(
+                expanded = expandedFireDetectors,
+                onExpandedChange = {
+                    expandedFireDetectors = !expandedFireDetectors
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                TextField(
+                    value = FireDetectorsYesorNo,
+                    onValueChange = {},
+                    readOnly = true,
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedFireDetectors) },
+                    modifier = Modifier.menuAnchor()
+                )
+
+                ExposedDropdownMenu(
+                    expanded = expandedFireDetectors,
+                    onDismissRequest = { expandedFireDetectors = false }
+                ) {
+                    yesOrNo.forEach { item ->
+                        DropdownMenuItem(
+                            text = { Text(text = item) },
+                            onClick = {
+                                FireDetectorsYesorNo = item
+                                expandedFireDetectors = false
+                            }
+                        )
+                    }
+                }
+            }
+        }
+
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ){
@@ -542,6 +685,53 @@ fun RegistrationForm(){
         }
         var typeOfCamera2Qty  by remember {
             mutableStateOf(TextFieldValue(""))
+        }
+        Text(
+            text = "CCTV Camera Yes/No",
+            fontSize = 18.sp,
+            textAlign = TextAlign.Start,
+            modifier = Modifier
+                .align(Alignment.Start)
+        )
+        var expandedCCTVCamera by remember { mutableStateOf(false) }
+        var CCTVCameraYesorNo by remember {
+            mutableStateOf(yesOrNo[1])
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            ExposedDropdownMenuBox(
+                expanded = expandedCCTVCamera,
+                onExpandedChange = {
+                    expandedCCTVCamera = !expandedCCTVCamera
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                TextField(
+                    value = CCTVCameraYesorNo,
+                    onValueChange = {},
+                    readOnly = true,
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedCCTVCamera) },
+                    modifier = Modifier.menuAnchor()
+                )
+
+                ExposedDropdownMenu(
+                    expanded = expandedCCTVCamera,
+                    onDismissRequest = { expandedCCTVCamera = false }
+                ) {
+                    yesOrNo.forEach { item ->
+                        DropdownMenuItem(
+                            text = { Text(text = item) },
+                            onClick = {
+                                CCTVCameraYesorNo = item
+                                expandedCCTVCamera = false
+                            }
+                        )
+                    }
+                }
+            }
         }
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -722,6 +912,53 @@ fun RegistrationForm(){
             text = "E. Public Address System",
             fontWeight = FontWeight.Bold
         )
+        Text(
+            text = "Public Address Yes/No",
+            fontSize = 18.sp,
+            textAlign = TextAlign.Start,
+            modifier = Modifier
+                .align(Alignment.Start)
+        )
+        var expandedPublicAddress by remember { mutableStateOf(false) }
+        var PublicAddressYesorNo by remember {
+            mutableStateOf(yesOrNo[1])
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            ExposedDropdownMenuBox(
+                expanded = expandedPublicAddress,
+                onExpandedChange = {
+                    expandedPublicAddress = !expandedPublicAddress
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                TextField(
+                    value = PublicAddressYesorNo,
+                    onValueChange = {},
+                    readOnly = true,
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedPublicAddress) },
+                    modifier = Modifier.menuAnchor()
+                )
+
+                ExposedDropdownMenu(
+                    expanded = expandedPublicAddress,
+                    onDismissRequest = { expandedPublicAddress = false }
+                ) {
+                    yesOrNo.forEach { item ->
+                        DropdownMenuItem(
+                            text = { Text(text = item) },
+                            onClick = {
+                                PublicAddressYesorNo = item
+                                expandedPublicAddress = false
+                            }
+                        )
+                    }
+                }
+            }
+        }
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ){
@@ -835,6 +1072,53 @@ fun RegistrationForm(){
             text = "F. Metal and Bomb Detector",
             fontWeight = FontWeight.Bold
         )
+        Text(
+            text = "Metal and Bomb Detector Yes/No",
+            fontSize = 18.sp,
+            textAlign = TextAlign.Start,
+            modifier = Modifier
+                .align(Alignment.Start)
+        )
+        var expandedMetalAndBomb by remember { mutableStateOf(false) }
+        var MetalAndBombYesorNo by remember {
+            mutableStateOf(yesOrNo[1])
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            ExposedDropdownMenuBox(
+                expanded = expandedMetalAndBomb,
+                onExpandedChange = {
+                    expandedMetalAndBomb = !expandedMetalAndBomb
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                TextField(
+                    value = MetalAndBombYesorNo,
+                    onValueChange = {},
+                    readOnly = true,
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedMetalAndBomb) },
+                    modifier = Modifier.menuAnchor()
+                )
+
+                ExposedDropdownMenu(
+                    expanded = expandedMetalAndBomb,
+                    onDismissRequest = { expandedMetalAndBomb = false }
+                ) {
+                    yesOrNo.forEach { item ->
+                        DropdownMenuItem(
+                            text = { Text(text = item) },
+                            onClick = {
+                                MetalAndBombYesorNo = item
+                                expandedMetalAndBomb = false
+                            }
+                        )
+                    }
+                }
+            }
+        }
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ){
@@ -922,6 +1206,53 @@ fun RegistrationForm(){
             text = "G. Banners and FirstAid Kit",
                     fontWeight= FontWeight.Bold
         )
+        Text(
+            text = "First Aid Kit Yes/No",
+            fontSize = 18.sp,
+            textAlign = TextAlign.Start,
+            modifier = Modifier
+                .align(Alignment.Start)
+        )
+        var expandedFirstAid by remember { mutableStateOf(false) }
+        var FirstAidYesorNo by remember {
+            mutableStateOf(yesOrNo[1])
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            ExposedDropdownMenuBox(
+                expanded = expandedFirstAid,
+                onExpandedChange = {
+                    expandedFirstAid= !expandedFirstAid
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                TextField(
+                    value = FirstAidYesorNo,
+                    onValueChange = {},
+                    readOnly = true,
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedFirstAid) },
+                    modifier = Modifier.menuAnchor()
+                )
+
+                ExposedDropdownMenu(
+                    expanded = expandedFirstAid,
+                    onDismissRequest = { expandedFirstAid = false }
+                ) {
+                    yesOrNo.forEach { item ->
+                        DropdownMenuItem(
+                            text = { Text(text = item) },
+                            onClick = {
+                                FirstAidYesorNo = item
+                                expandedFirstAid = false
+                            }
+                        )
+                    }
+                }
+            }
+        }
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ){
@@ -1032,6 +1363,54 @@ fun RegistrationForm(){
             text = "H. Other Measures Undertaken",
             fontWeight= FontWeight.Bold
         )
+        Text(
+            text = "Emergency Team Yes/No",
+            fontSize = 18.sp,
+            textAlign = TextAlign.Start,
+            modifier = Modifier
+                .align(Alignment.Start)
+        )
+        var expandedEmergencyteam by remember { mutableStateOf(false) }
+        var EmergencyTeamYesorNo by remember {
+            mutableStateOf(yesOrNo[1])
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            ExposedDropdownMenuBox(
+                expanded = expandedEmergencyteam,
+                onExpandedChange = {
+                    expandedEmergencyteam = !expandedEmergencyteam
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                TextField(
+                    value = EmergencyTeamYesorNo,
+                    onValueChange = {},
+                    readOnly = true,
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedEmergencyteam) },
+                    modifier = Modifier.menuAnchor()
+                )
+
+                ExposedDropdownMenu(
+                    expanded = expandedEmergencyteam,
+                    onDismissRequest = { expandedEmergencyteam = false }
+                ) {
+                    yesOrNo.forEach { item ->
+                        DropdownMenuItem(
+                            text = { Text(text = item) },
+                            onClick = {
+                                EmergencyTeamYesorNo = item
+                                expandedEmergencyteam = false
+                            }
+                        )
+                    }
+                }
+            }
+        }
+
         OutlinedTextField(
             value = emergencyEvacuationPlanDetails,
             onValueChange = {
@@ -1130,6 +1509,7 @@ fun RegistrationForm(){
             modifier = Modifier
                 .fillMaxWidth()
         )
+        var totalYesses = 0
 
         Button(onClick = {
             if(
@@ -1184,7 +1564,15 @@ fun RegistrationForm(){
                 !TextUtils.isEmpty(trainingSecurityTeam.text) &&
                 !TextUtils.isEmpty(remarks.text) &&
                 !TextUtils.isEmpty(nameOfFSAIRepresentative.text) &&
-                !TextUtils.isEmpty(nameOfMandalRepresentative.text)
+                !TextUtils.isEmpty(nameOfMandalRepresentative.text) &&
+                !TextUtils.isEmpty(MCBInstalledYesorNo) &&
+                !TextUtils.isEmpty(FireExtinguishersYesorNo) &&
+                !TextUtils.isEmpty(FireDetectorsYesorNo) &&
+                !TextUtils.isEmpty(CCTVCameraYesorNo) &&
+                !TextUtils.isEmpty(PublicAddressYesorNo) &&
+                !TextUtils.isEmpty(MetalAndBombYesorNo) &&
+                !TextUtils.isEmpty(FirstAidYesorNo) &&
+                !TextUtils.isEmpty(EmergencyTeamYesorNo)
             ){
                 val hashMap = HashMap<String, Any>()
                 hashMap["nameOfMandal"] = nameOfMandal.text
@@ -1242,9 +1630,46 @@ fun RegistrationForm(){
                 hashMap["nameOfMandalRepresentative"] = nameOfMandalRepresentative.text
                 hashMap["firstAuditStatus"] = false
                 hashMap["secondAuditStatus"] = false
-
-                db.collection("mandals").document().set(hashMap).addOnSuccessListener {
+                hashMap["MCBInstalledYesorNo"] = MCBInstalledYesorNo
+                hashMap["FireExtinguishersYesorNo"] = FireExtinguishersYesorNo
+                hashMap["FireDetectorsYesorNo"] = FireDetectorsYesorNo
+                hashMap["CCTVCameraYesorNo"] = CCTVCameraYesorNo
+                hashMap["PublicAddressYesorNo"] = PublicAddressYesorNo
+                hashMap["MetalAndBombYesorNo"] = MetalAndBombYesorNo
+                hashMap["FirstAidYesorNo"] = FirstAidYesorNo
+                hashMap["EmergencyTeamYesorNo"] = EmergencyTeamYesorNo
+                val ref = db.collection("mandals").document()
+                ref.set(hashMap).addOnSuccessListener {
                     Toast.makeText(context, "Mandal Registered Successfully", Toast.LENGTH_SHORT).show()
+                    if(MCBInstalledYesorNo == "Yes"){
+                        totalYesses++
+                    }
+                    if(FireExtinguishersYesorNo == "Yes"){
+                        totalYesses++
+                    }
+                    if(FireDetectorsYesorNo == "Yes"){
+                        totalYesses++
+                    }
+                    if(CCTVCameraYesorNo == "Yes"){
+                        totalYesses++
+                    }
+                    if(PublicAddressYesorNo == "Yes"){
+                        totalYesses++
+                    }
+                    if(MetalAndBombYesorNo == "Yes"){
+                        totalYesses++
+                    }
+                    if(FirstAidYesorNo == "Yes"){
+                        totalYesses++
+                    }
+                    if(EmergencyTeamYesorNo == "Yes"){
+                        totalYesses++
+                    }
+                    if(totalYesses > 3 && MCBInstalledYesorNo == "Yes" && FireExtinguishersYesorNo == "Yes" && CCTVCameraYesorNo == "Yes"){
+                        db.collection("mandalsSelectedForNext").document(ref.id).set(hashMap).addOnSuccessListener {
+                            Toast.makeText(context, "Mandal Qualified for next round", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
             }
             else{

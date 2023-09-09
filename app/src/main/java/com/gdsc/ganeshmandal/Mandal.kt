@@ -55,5 +55,13 @@ data class Mandal(
     val nameOfFSAIRepresentative: String,
     val nameOfMandalRepresentative: String,
     val firstAuditStatus: String,
-    val secondAuditStatus: String
+    val secondAuditStatus: String,
+    val MCBInstalledYesorNo: String,
+    val FireExtinguishersYesorNo: String,
+    val FireDetectorsYesorNo: String,
+    val CCTVCameraYesorNo: String,
+    val PublicAddressYesorNo: String,
+    val MetalAndBombYesorNo: String,
+    val FirstAidYesorNo: String,
+    val EmergencyTeamYesorNo: String
 )

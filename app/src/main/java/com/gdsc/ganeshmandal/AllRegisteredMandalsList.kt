@@ -1,12 +1,17 @@
 package com.gdsc.ganeshmandal
 
+import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
@@ -14,6 +19,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.gdsc.ganeshmandal.ui.theme.GaneshMandalTheme
 import com.gdsc.ganeshmandal.ui.theme.MandalSingleRow
 import com.google.firebase.firestore.FirebaseFirestore
@@ -43,7 +50,10 @@ class AllRegisteredMandalsList : ComponentActivity() {
                     }
                     val db = FirebaseFirestore.getInstance()
                     val listOfMandal = ArrayList<Mandal>()
-                    listOfMandals = listOfMandal
+//                    listOfMandals = listOfMandal
+                    var textFieldValue by remember {
+                        mutableStateOf(TextFieldValue(""))
+                    }
                     db.collection("mandals").get()
                         .addOnSuccessListener {docs->
                             for(doc in docs){
@@ -103,23 +113,37 @@ class AllRegisteredMandalsList : ComponentActivity() {
                                         nameOfFSAIRepresentative = doc["nameOfMandalRepresentative"].toString(),
                                         nameOfMandalRepresentative = doc["nameOfMandalRepresentative"].toString(),
                                         firstAuditStatus = doc["firstAuditStatus"].toString(),
-                                        secondAuditStatus = doc["secondAuditStatus"].toString()
+                                        secondAuditStatus = doc["secondAuditStatus"].toString(),
+                                        MCBInstalledYesorNo = doc["MCBInstalledYesorNo:"].toString(),
+                                        FireExtinguishersYesorNo = doc["FireExtinguishersYesorNo"].toString(),
+                                        FireDetectorsYesorNo = doc["FireDetectorsYesorNo"].toString(),
+                                        CCTVCameraYesorNo = doc["CCTVCameraYesorNo"].toString(),
+                                        PublicAddressYesorNo = doc["PublicAddressYesorNo"].toString(),
+                                        MetalAndBombYesorNo = doc["MetalAndBombYesorNo"].toString(),
+                                        FirstAidYesorNo = doc["FirstAidYesorNo"].toString(),
+                                        EmergencyTeamYesorNo = doc["EmergencyTeamYesorNo"].toString()
                                     )
                                 )
                             }
                             println("List"+listOfMandal)
-                            listOfMandals = listOfMandal
+                            if(TextUtils.isEmpty(textFieldValue.text)){
+                                    listOfMandals = listOfMandal
+                            }
+
                         }
-                    var textFieldValue by remember {
-                        mutableStateOf(TextFieldValue(""))
-                    }
                     Column(){
                         OutlinedTextField(
                             value = textFieldValue,
                             onValueChange = {
                                 textFieldValue = it
+                                listOfMandals = if(!TextUtils.isEmpty(textFieldValue.text)){
+                                    val list = search(it, listOfMandal)
+                                    list
+                                } else{
+                                    listOfMandal
+                                }
                             },
-                            leadingIcon = {
+                            trailingIcon = {
                                 Image(
                                     imageVector = Icons.Outlined.Search,
                                     contentDescription = "Search button",
@@ -130,6 +154,8 @@ class AllRegisteredMandalsList : ComponentActivity() {
                                 )
                             },
                             modifier = Modifier
+                                .padding(12.dp)
+                                .fillMaxWidth()
                                 .align(Alignment.CenterHorizontally)
                         )
                         LazyColumn(){
@@ -147,11 +173,16 @@ class AllRegisteredMandalsList : ComponentActivity() {
 }
 
 fun search(textFieldValue: TextFieldValue, listOfMandals: ArrayList<Mandal>): ArrayList<Mandal> {
-    val list = ArrayList<Mandal>()
-    for(mandal in listOfMandals){
-        if(mandal.nameOfMandal.contains(textFieldValue.text)){
-            list.add(mandal)
+    var list = ArrayList<Mandal>()
+    if(!TextUtils.isEmpty(textFieldValue.text)){
+        for(mandal in listOfMandals){
+            if(mandal.nameOfMandal.toString().contains(textFieldValue.text, true)){
+                list.add(mandal)
+            }
         }
+    }
+    else{
+        list = listOfMandals
     }
     return list
 }
