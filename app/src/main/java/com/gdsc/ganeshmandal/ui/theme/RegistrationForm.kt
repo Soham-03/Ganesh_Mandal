@@ -1674,6 +1674,7 @@ fun RegistrationForm(){
             }
             else{
                 Toast.makeText(context, "Some Fields is Missing", Toast.LENGTH_SHORT).show()
+
             }
         }) {
             Text(
