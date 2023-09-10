@@ -26,6 +26,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -147,6 +149,9 @@ class MandalsSelectedFor1stAuditList : ComponentActivity() {
                                     listOfMandal
                                 }
                             },
+                            label = {
+                                Text(text = "Serach Mandal")
+                            },
                             trailingIcon = {
                                 Image(
                                     imageVector = Icons.Outlined.Search,
@@ -154,7 +159,8 @@ class MandalsSelectedFor1stAuditList : ComponentActivity() {
                                     modifier = Modifier
                                         .clickable {
                                             listOfMandals = search(textFieldValue, listOfMandal)
-                                        }
+                                        },
+                                    colorFilter = ColorFilter.tint(Color.White),
                                 )
                             },
                             modifier = Modifier
