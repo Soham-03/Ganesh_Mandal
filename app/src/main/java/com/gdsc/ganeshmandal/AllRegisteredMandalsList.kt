@@ -50,9 +50,12 @@ class AllRegisteredMandalsList : ComponentActivity() {
             if (it.resultCode == Activity.RESULT_OK) {
                 val uri = it.data?.data!!
                 uriImageState.value = uri
-                Toast.makeText(this@AllRegisteredMandalsList, uriImageState.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@AllRegisteredMandalsList, uriImageState.toString(), Toast.LENGTH_SHORT
+                ).show()
             }
         }
+
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,8 +63,7 @@ class AllRegisteredMandalsList : ComponentActivity() {
             GaneshMandalTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     var listOfMandals by remember {
                         mutableStateOf(ArrayList<Mandal>())
@@ -71,18 +73,17 @@ class AllRegisteredMandalsList : ComponentActivity() {
 
 //                    listOfMandals = listOfMandal
                     //counting the number of mandal
-                    
+
                     var numberofMandal by remember {
                         mutableStateOf(0)
                     }
-                    
+
                     var textFieldValue by remember {
                         mutableStateOf(TextFieldValue(""))
                     }
-                    db.collection("mandals").get()
-                        .addOnSuccessListener {docs->
+                    db.collection("mandals").get().addOnSuccessListener { docs ->
                             numberofMandal = docs.size()
-                            for(doc in docs){
+                            for (doc in docs) {
 
                                 listOfMandal.add(
                                     Mandal(
@@ -118,25 +119,25 @@ class AllRegisteredMandalsList : ComponentActivity() {
                                         storageDetails = doc["storageDetails"].toString(),
                                         monitoringMethodology = doc["monitoringMethodology"].toString(),
                                         typeOfSpeaker1 = doc["typeOfSpeaker1"].toString(),
-                                        typeOfSpeaker1Quant= doc["typeOfSpeaker1Quant"].toString(),
-                                        typeOfSpeaker2= doc["typeOfSpeaker2"].toString(),
-                                        typeOfSpeaker2Quant= doc["typeOfSpeaker2Quant"].toString(),
-                                        announcingTeam= doc["announcingTeam"].toString(),
-                                        announcingTeamQuant= doc["announcingTeamQuant"].toString(),
-                                        typeOfDetector1= doc["typeOfDetector1"].toString(),
-                                        typeOfDetector1Quant= doc["typeOfDetector1Quant"].toString(),
-                                        typeOfDetector2= doc["typeOfDetector2"].toString(),
-                                        typeOfDetector2Quant= doc["typeOfDetector2Quant"].toString(),
-                                        typeOfSign1= doc["typeOfSign1"].toString(),
-                                        typeOfSign1Quant= doc["typeOfSign1Quant"].toString(),
-                                        typeOfSign2= doc["typeOfSign2"].toString(),
-                                        typeOfSign2Quant= doc["typeOfSign2Quant"].toString(),
-                                        firstAidKit= doc["firstAidKit"].toString(),
-                                        firstAidKitQuant= doc["firstAidKitQuant"].toString(),
-                                        emergencyEvacuationPlanDetails= doc["emergencyEvacuationPlanDetails"].toString(),
-                                        securityTeamDetails= doc["securityTeamDetails"].toString(),
-                                        trainingSecurityTeam= doc["trainingSecurityTeam"].toString(),
-                                        remarks= doc["remarks"].toString(),
+                                        typeOfSpeaker1Quant = doc["typeOfSpeaker1Quant"].toString(),
+                                        typeOfSpeaker2 = doc["typeOfSpeaker2"].toString(),
+                                        typeOfSpeaker2Quant = doc["typeOfSpeaker2Quant"].toString(),
+                                        announcingTeam = doc["announcingTeam"].toString(),
+                                        announcingTeamQuant = doc["announcingTeamQuant"].toString(),
+                                        typeOfDetector1 = doc["typeOfDetector1"].toString(),
+                                        typeOfDetector1Quant = doc["typeOfDetector1Quant"].toString(),
+                                        typeOfDetector2 = doc["typeOfDetector2"].toString(),
+                                        typeOfDetector2Quant = doc["typeOfDetector2Quant"].toString(),
+                                        typeOfSign1 = doc["typeOfSign1"].toString(),
+                                        typeOfSign1Quant = doc["typeOfSign1Quant"].toString(),
+                                        typeOfSign2 = doc["typeOfSign2"].toString(),
+                                        typeOfSign2Quant = doc["typeOfSign2Quant"].toString(),
+                                        firstAidKit = doc["firstAidKit"].toString(),
+                                        firstAidKitQuant = doc["firstAidKitQuant"].toString(),
+                                        emergencyEvacuationPlanDetails = doc["emergencyEvacuationPlanDetails"].toString(),
+                                        securityTeamDetails = doc["securityTeamDetails"].toString(),
+                                        trainingSecurityTeam = doc["trainingSecurityTeam"].toString(),
+                                        remarks = doc["remarks"].toString(),
                                         nameOfFSAIRepresentative = doc["nameOfFSAIRepresentative"].toString(),
                                         nameOfMandalRepresentative = doc["nameOfMandalRepresentative"].toString(),
                                         firstAuditStatus = doc["firstAuditStatus"].toString(),
@@ -159,36 +160,32 @@ class AllRegisteredMandalsList : ComponentActivity() {
                                     )
                                 )
                             }
-                            println("List"+listOfMandal)
-                            if(TextUtils.isEmpty(textFieldValue.text)){
-                                    listOfMandals = listOfMandal
+                            println("List" + listOfMandal)
+                            if (TextUtils.isEmpty(textFieldValue.text)) {
+                                listOfMandals = listOfMandal
                             }
 
                         }
-                    Column(){
-                        OutlinedTextField(
-                            value = textFieldValue,
+                    Column() {
+                        OutlinedTextField(value = textFieldValue,
                             onValueChange = {
                                 textFieldValue = it
-                                listOfMandals = if(!TextUtils.isEmpty(textFieldValue.text)){
+                                listOfMandals = if (!TextUtils.isEmpty(textFieldValue.text)) {
                                     val list = search(it, listOfMandal)
                                     list
-                                } else{
+                                } else {
                                     listOfMandal
                                 }
                             },
                             label = {
-                                    Text(text = "Serach Mandal")
+                                Text(text = "Serach Mandal")
                             },
                             trailingIcon = {
-                                Image(
-                                    imageVector = Icons.Outlined.Search,
+                                Image(imageVector = Icons.Outlined.Search,
                                     contentDescription = "Search button",
-                                    modifier = Modifier
-                                        .clickable {
+                                    modifier = Modifier.clickable {
                                             listOfMandals = search(textFieldValue, listOfMandal)
-                                        }
-                                )
+                                        })
                             },
                             modifier = Modifier
                                 .padding(12.dp)
@@ -200,22 +197,31 @@ class AllRegisteredMandalsList : ComponentActivity() {
                                 .padding(horizontal = 12.dp, vertical = 4.dp)
                                 .fillMaxWidth()
                                 .align(Alignment.CenterHorizontally),
-                            horizontalArrangement =  Arrangement.Center,
+                            horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(text = "Total number of Mandal Registered:", fontWeight = FontWeight.W400, fontSize = 20.sp )
-                            Text(text = numberofMandal.toString(), fontWeight = FontWeight.Bold,fontSize = 20.sp )
+                            Text(
+                                text = "Total number of Mandal Registered:",
+                                fontWeight = FontWeight.W400,
+                                fontSize = 20.sp
+                            )
+                            Text(
+                                text = numberofMandal.toString(),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp
+                            )
                         }
 
                         AnimatedVisibility(visible = listOfMandals.isNotEmpty()) {
-                            LazyColumn(){
-                                for(mandal in listOfMandals){
+                            LazyColumn() {
+                                for (mandal in listOfMandals) {
                                     item {
                                         MandalSingleRow(
                                             mandal = mandal,
                                             show1stAuditStatus = false,
                                             show2ndAuditStatus = false,
-                                            listOfAuditId = null
+                                            listOfAuditId = null,
+                                            inRegistered = true
                                         )
                                     }
                                 }
@@ -237,14 +243,13 @@ class AllRegisteredMandalsList : ComponentActivity() {
 
 fun search(textFieldValue: TextFieldValue, listOfMandals: ArrayList<Mandal>): ArrayList<Mandal> {
     var list = ArrayList<Mandal>()
-    if(!TextUtils.isEmpty(textFieldValue.text)){
-        for(mandal in listOfMandals){
-            if(mandal.nameOfMandal.toString().contains(textFieldValue.text, true)){
+    if (!TextUtils.isEmpty(textFieldValue.text)) {
+        for (mandal in listOfMandals) {
+            if (mandal.nameOfMandal.toString().contains(textFieldValue.text, true)) {
                 list.add(mandal)
             }
         }
-    }
-    else{
+    } else {
         list = listOfMandals
     }
     return list

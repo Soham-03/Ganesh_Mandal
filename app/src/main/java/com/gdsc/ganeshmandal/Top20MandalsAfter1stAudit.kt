@@ -181,7 +181,7 @@ class Top20MandalsAfter1stAudit : ComponentActivity() {
                             LazyColumn(){
                                 for(mandal in listOfMandals){
                                     item {
-                                        MandalSingleRow(mandal = mandal, show1stAuditStatus = false, show2ndAuditStatus = true, null)
+                                        MandalSingleRow(mandal = mandal, show1stAuditStatus = false, show2ndAuditStatus = true, null, inRegistered = false, isSecondAudit = true)
                                     }
                                 }
                             }
