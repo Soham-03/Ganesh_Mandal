@@ -35,7 +35,7 @@ fun MandalIndividualAuditSingleRow(audit: MandalFinalAudit){
                     context.startActivity(intent)
                 }
                 else{
-                    println("Fuck off")
+                    println("Hello world")
                 }
             }
     ){

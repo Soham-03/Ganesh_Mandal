@@ -34,13 +34,13 @@ import com.gdsc.ganeshmandal.R
 import com.gdsc.ganeshmandal.RegisterMandalActivity
 
 @Composable
-fun MainActScreen(){
+fun MainActScreen() {
     val context = LocalContext.current
     Column(
         verticalArrangement = Arrangement.spacedBy(20.dp),
         modifier = Modifier
-        .fillMaxSize()
-    ){
+            .fillMaxSize()
+    ) {
         Image(
             painter = painterResource(id = R.drawable.ganesh),
             contentDescription = "",
@@ -57,19 +57,32 @@ fun MainActScreen(){
             modifier = Modifier
                 .padding(16.dp)
                 .align(Alignment.CenterHorizontally)
-        ){
-            Button(onClick = {
-                val intent = Intent(context, RegisterMandalActivity::class.java)
-                context.startActivity(intent)
-            }, ) {
-                Text(text = "Register\nNew Mandal", fontSize = 24.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+        ) {
+            Button(
+                onClick = {
+                    val intent = Intent(context, RegisterMandalActivity::class.java)
+                    context.startActivity(intent)
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "Register New Mandal",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
             }
             Spacer(modifier = Modifier.height(22.dp))
             Button(onClick = {
                 val intent = Intent(context, AdminLoginIdPass::class.java)
                 context.startActivity(intent)
-            }) {
-                Text(text = "Admin\nLogin", fontSize = 24.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+            }, modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = "Admin Login",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
             }
 
         }
@@ -78,6 +91,6 @@ fun MainActScreen(){
 
 @Preview
 @Composable
-fun MainActScreenPreview(){
+fun MainActScreenPreview() {
     MainActScreen()
 }
