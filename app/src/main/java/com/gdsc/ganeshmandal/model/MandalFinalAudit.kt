@@ -1,4 +1,4 @@
-package com.gdsc.ganeshmandal
+package com.gdsc.ganeshmandal.model
 
 data class MandalFinalAudit(
     var auditId: String,
