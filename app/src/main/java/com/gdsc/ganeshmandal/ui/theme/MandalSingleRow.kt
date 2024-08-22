@@ -45,13 +45,12 @@ fun MandalSingleRow(
 
 //        border = BorderStroke(2.dp, color = if(isSystemInDarkTheme()){Purple80}else{Purple40}),
         border = if (!inRegistered) {
-            if(isSecondAudit){
+            if (isSecondAudit) {
                 if (mandal.secondAuditStatus == "true") BorderStroke(
                     2.dp,
                     color = GreenColor
                 ) else BorderStroke(2.dp, color = RedColor)
-            }
-            else{
+            } else {
                 if (mandal.firstAuditStatus == "true") BorderStroke(
                     2.dp,
                     color = GreenColor
@@ -78,7 +77,7 @@ fun MandalSingleRow(
             if (mandal != null) {
                 Text(
                     text = mandal.nameOfMandal,
-                    fontSize = 20.sp,
+                    fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
@@ -98,11 +97,13 @@ fun MandalSingleRow(
                     Column {
                         Text(
                             text = "Second Audit Status: " + mandal.secondAuditStatus,
-                            fontSize = 18.sp
+                            fontSize = 18.sp,
+                            color = if (mandal.secondAuditStatus == "true") GreenColor else RedColor
                         )
                         Text(
                             text = "Total Score: " + mandal.totalScore,
-                            fontSize = 18.sp
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
                         )
                     }
                 }
