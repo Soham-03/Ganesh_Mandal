@@ -44,6 +44,7 @@ class MandalsSelectedFor1stAuditList : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
             GaneshMandalTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -56,99 +57,128 @@ class MandalsSelectedFor1stAuditList : ComponentActivity() {
                     var numberOfMandal by remember {
                         mutableStateOf(0)
                     }
+
+                    var countAudited = 0
+                    var countNotAudited = 0
+
+                    listOfMandals.forEach {
+                        println("Status: of mandal " + it.firstAuditStatus)
+                        it.firstAuditStatus
+
+                        if (it.firstAuditStatus == "true") {
+                            countAudited++
+                        } else {
+                            countNotAudited++
+                        }
+                    }
+
+
                     val db = FirebaseFirestore.getInstance()
                     val listOfMandal = ArrayList<Mandal>()
                     var textFieldValue by remember {
                         mutableStateOf(TextFieldValue(""))
                     }
-                    db.collection("mandalsSelectedForNext").get().addOnSuccessListener { docs ->
-                            for (doc in docs) {
-                                numberOfMandal = docs.size()
-                                listOfMandal.add(
-                                    Mandal(
-                                        mandalId = doc.id.toString(),
-                                        nameOfMandal = doc["nameOfMandal"].toString(),
-                                        addOfMandal = doc["addOfMandal"].toString(),
-                                        contactPerson = doc["contactPerson"].toString(),
-                                        mobileNo = doc["mobileNo"].toString(),
-                                        totalAreaCovered = doc["totalAreaCovered"].toString(),
-                                        totalAreaOpen = doc["totalAreaOpen"].toString(),
-                                        dateOfTechnicalEvaluation = doc["dateOfTechnicalEvaluation"].toString(),
-                                        powerConsumedByMandal = doc["powerConsumedByMandal"].toString(),
-                                        sizeOfCableInstalled = doc["sizeOfCableInstalled"].toString(),
-                                        typeOfCable = doc["typeOfCable"].toString(),
-                                        mcb_mccbInstalled = doc["mcb_mccbInstalled"].toString(),
-                                        _24ElectricianYesOrNo = doc["_24ElectricianYesOrNo"].toString(),
-                                        properTerminationOfCables = doc["properTerminationOfCables"].toString(),
-                                        fireExtin1 = doc["fireExtin1"].toString(),
-                                        fireExt1Quant = doc["fireExt1Quant"].toString(),
-                                        fireExtin2 = doc["fireExtin2"].toString(),
-                                        fireExt2Quant = doc["fireExt2Quant"].toString(),
-                                        fireDetect1 = doc["fireDetect1"].toString(),
-                                        fireDetect1Quant = doc["fireDetect1Quant"].toString(),
-                                        fireDetect2 = doc["fireDetect2"].toString(),
-                                        fireDetect2Quant = doc["fireDetect2Quant"].toString(),
-                                        typeOfCamera1 = doc["typeOfCamera1"].toString(),
-                                        typeOfCamera1Qty = doc["typeOfCamera1Qty"].toString(),
-                                        typeOfCamera2 = doc["typeOfCamera2"].toString(),
-                                        typeOfCamera2Qty = doc["typeOfCamera2Qty"].toString(),
-                                        dvr = doc["dvr"].toString(),
-                                        channels = doc["channels"].toString(),
-                                        dvrQuantity = doc["dvrQuantity"].toString(),
-                                        storageDetails = doc["storageDetails"].toString(),
-                                        monitoringMethodology = doc["monitoringMethodology"].toString(),
-                                        typeOfSpeaker1 = doc["typeOfSpeaker1"].toString(),
-                                        typeOfSpeaker1Quant = doc["typeOfSpeaker1Quant"].toString(),
-                                        typeOfSpeaker2 = doc["typeOfSpeaker2"].toString(),
-                                        typeOfSpeaker2Quant = doc["typeOfSpeaker2Quant"].toString(),
-                                        announcingTeam = doc["announcingTeam"].toString(),
-                                        announcingTeamQuant = doc["announcingTeamQuant"].toString(),
-                                        typeOfDetector1 = doc["typeOfDetector1"].toString(),
-                                        typeOfDetector1Quant = doc["typeOfDetector1Quant"].toString(),
-                                        typeOfDetector2 = doc["typeOfDetector2"].toString(),
-                                        typeOfDetector2Quant = doc["typeOfDetector2Quant"].toString(),
-                                        typeOfSign1 = doc["typeOfSign1"].toString(),
-                                        typeOfSign1Quant = doc["typeOfSign1Quant"].toString(),
-                                        typeOfSign2 = doc["typeOfSign2"].toString(),
-                                        typeOfSign2Quant = doc["typeOfSign2Quant"].toString(),
-                                        firstAidKit = doc["firstAidKit"].toString(),
-                                        firstAidKitQuant = doc["firstAidKitQuant"].toString(),
-                                        emergencyEvacuationPlanDetails = doc["emergencyEvacuationPlanDetails"].toString(),
-                                        securityTeamDetails = doc["securityTeamDetails"].toString(),
-                                        trainingSecurityTeam = doc["trainingSecurityTeam"].toString(),
-                                        remarks = doc["remarks"].toString(),
-                                        nameOfFSAIRepresentative = doc["nameOfFSAIRepresentative"].toString(),
-                                        nameOfMandalRepresentative = doc["nameOfMandalRepresentative"].toString(),
-                                        firstAuditStatus = doc["firstAuditStatus"].toString(),
-                                        secondAuditStatus = doc["secondAuditStatus"].toString(),
-                                        MCBInstalledYesorNo = doc["MCBInstalledYesorNo:"].toString(),
-                                        FireExtinguishersYesorNo = doc["FireExtinguishersYesorNo"].toString(),
-                                        FireDetectorsYesorNo = doc["FireDetectorsYesorNo"].toString(),
-                                        CCTVCameraYesorNo = doc["CCTVCameraYesorNo"].toString(),
-                                        PublicAddressYesorNo = doc["PublicAddressYesorNo"].toString(),
-                                        MetalAndBombYesorNo = doc["MetalAndBombYesorNo"].toString(),
-                                        FirstAidYesorNo = doc["FirstAidYesorNo"].toString(),
-                                        EmergencyTeamYesorNo = doc["EmergencyTeamYesorNo"].toString(),
-                                        totalScore = doc["totalScore"].toString(),
-                                        nameOf1stAuditor = doc["nameOf1stAuditor"].toString(),
-                                        latitude = doc["latitude"].toString(),
-                                        longitude = doc["longitude"].toString(),
-                                        imageOfMandal = doc["imagMandal"].toString(),
-                                        finalAuditScore = doc["finalAuditScore"].toString(),
-                                        email = doc["mandalRepresentativeEmail"].toString()
-                                    )
-                                )
-                                println("Status: " + doc["firstAuditStatus"])
-                            }
-//                            println("List"+)
 
-                            if (TextUtils.isEmpty(textFieldValue.text)) {
-                                listOfMandals = listOfMandal
-                            }
+                    //counting the number of mandal who have not done with first audit
+//                    countNotAudited = numberOfMandal - countAudited
+
+                    db.collection("mandalsSelectedForNext").get().addOnSuccessListener { docs ->
+                        for (doc in docs) {
+                            numberOfMandal = docs.size()
+
+                            listOfMandal.add(
+                                Mandal(
+                                    mandalId = doc.id.toString(),
+                                    nameOfMandal = doc["nameOfMandal"].toString(),
+                                    addOfMandal = doc["addOfMandal"].toString(),
+                                    contactPerson = doc["contactPerson"].toString(),
+                                    mobileNo = doc["mobileNo"].toString(),
+                                    totalAreaCovered = doc["totalAreaCovered"].toString(),
+                                    totalAreaOpen = doc["totalAreaOpen"].toString(),
+                                    dateOfTechnicalEvaluation = doc["dateOfTechnicalEvaluation"].toString(),
+                                    powerConsumedByMandal = doc["powerConsumedByMandal"].toString(),
+                                    sizeOfCableInstalled = doc["sizeOfCableInstalled"].toString(),
+                                    typeOfCable = doc["typeOfCable"].toString(),
+                                    mcb_mccbInstalled = doc["mcb_mccbInstalled"].toString(),
+                                    _24ElectricianYesOrNo = doc["_24ElectricianYesOrNo"].toString(),
+                                    properTerminationOfCables = doc["properTerminationOfCables"].toString(),
+                                    fireExtin1 = doc["fireExtin1"].toString(),
+                                    fireExt1Quant = doc["fireExt1Quant"].toString(),
+                                    fireExtin2 = doc["fireExtin2"].toString(),
+                                    fireExt2Quant = doc["fireExt2Quant"].toString(),
+                                    fireDetect1 = doc["fireDetect1"].toString(),
+                                    fireDetect1Quant = doc["fireDetect1Quant"].toString(),
+                                    fireDetect2 = doc["fireDetect2"].toString(),
+                                    fireDetect2Quant = doc["fireDetect2Quant"].toString(),
+                                    typeOfCamera1 = doc["typeOfCamera1"].toString(),
+                                    typeOfCamera1Qty = doc["typeOfCamera1Qty"].toString(),
+                                    typeOfCamera2 = doc["typeOfCamera2"].toString(),
+                                    typeOfCamera2Qty = doc["typeOfCamera2Qty"].toString(),
+                                    dvr = doc["dvr"].toString(),
+                                    channels = doc["channels"].toString(),
+                                    dvrQuantity = doc["dvrQuantity"].toString(),
+                                    storageDetails = doc["storageDetails"].toString(),
+                                    monitoringMethodology = doc["monitoringMethodology"].toString(),
+                                    typeOfSpeaker1 = doc["typeOfSpeaker1"].toString(),
+                                    typeOfSpeaker1Quant = doc["typeOfSpeaker1Quant"].toString(),
+                                    typeOfSpeaker2 = doc["typeOfSpeaker2"].toString(),
+                                    typeOfSpeaker2Quant = doc["typeOfSpeaker2Quant"].toString(),
+                                    announcingTeam = doc["announcingTeam"].toString(),
+                                    announcingTeamQuant = doc["announcingTeamQuant"].toString(),
+                                    typeOfDetector1 = doc["typeOfDetector1"].toString(),
+                                    typeOfDetector1Quant = doc["typeOfDetector1Quant"].toString(),
+                                    typeOfDetector2 = doc["typeOfDetector2"].toString(),
+                                    typeOfDetector2Quant = doc["typeOfDetector2Quant"].toString(),
+                                    typeOfSign1 = doc["typeOfSign1"].toString(),
+                                    typeOfSign1Quant = doc["typeOfSign1Quant"].toString(),
+                                    typeOfSign2 = doc["typeOfSign2"].toString(),
+                                    typeOfSign2Quant = doc["typeOfSign2Quant"].toString(),
+                                    firstAidKit = doc["firstAidKit"].toString(),
+                                    firstAidKitQuant = doc["firstAidKitQuant"].toString(),
+                                    emergencyEvacuationPlanDetails = doc["emergencyEvacuationPlanDetails"].toString(),
+                                    securityTeamDetails = doc["securityTeamDetails"].toString(),
+                                    trainingSecurityTeam = doc["trainingSecurityTeam"].toString(),
+                                    remarks = doc["remarks"].toString(),
+                                    nameOfFSAIRepresentative = doc["nameOfFSAIRepresentative"].toString(),
+                                    nameOfMandalRepresentative = doc["nameOfMandalRepresentative"].toString(),
+                                    firstAuditStatus = doc["firstAuditStatus"].toString(),
+                                    secondAuditStatus = doc["secondAuditStatus"].toString(),
+                                    MCBInstalledYesorNo = doc["MCBInstalledYesorNo:"].toString(),
+                                    FireExtinguishersYesorNo = doc["FireExtinguishersYesorNo"].toString(),
+                                    FireDetectorsYesorNo = doc["FireDetectorsYesorNo"].toString(),
+                                    CCTVCameraYesorNo = doc["CCTVCameraYesorNo"].toString(),
+                                    PublicAddressYesorNo = doc["PublicAddressYesorNo"].toString(),
+                                    MetalAndBombYesorNo = doc["MetalAndBombYesorNo"].toString(),
+                                    FirstAidYesorNo = doc["FirstAidYesorNo"].toString(),
+                                    EmergencyTeamYesorNo = doc["EmergencyTeamYesorNo"].toString(),
+                                    totalScore = doc["totalScore"].toString(),
+                                    nameOf1stAuditor = doc["nameOf1stAuditor"].toString(),
+                                    latitude = doc["latitude"].toString(),
+                                    longitude = doc["longitude"].toString(),
+                                    imageOfMandal = doc["imagMandal"].toString(),
+                                    finalAuditScore = doc["finalAuditScore"].toString(),
+                                    email = doc["mandalRepresentativeEmail"].toString()
+                                )
+                            )
+                            println("Status: " + doc["firstAuditStatus"])
 
                         }
+//                            println("List"+)
+
+                        if (TextUtils.isEmpty(textFieldValue.text)) {
+                            listOfMandals = listOfMandal
+                        }
+
+
+                    }
+
+
+
+
+
                     Column() {
-                        OutlinedTextField(value = textFieldValue,
+                        OutlinedTextField(
+                            value = textFieldValue,
                             onValueChange = {
                                 textFieldValue = it
                                 listOfMandals = if (!TextUtils.isEmpty(textFieldValue.text)) {
@@ -165,33 +195,89 @@ class MandalsSelectedFor1stAuditList : ComponentActivity() {
                                 Image(imageVector = Icons.Outlined.Search,
                                     contentDescription = "Search button",
                                     modifier = Modifier.clickable {
-                                            listOfMandals = search(textFieldValue, listOfMandal)
-                                        })
+                                        listOfMandals = search(textFieldValue, listOfMandal)
+                                    })
                             },
                             modifier = Modifier
                                 .padding(12.dp)
                                 .fillMaxWidth()
                                 .align(Alignment.CenterHorizontally)
                         )
-                        Row(
+
+                        Column (
                             modifier = Modifier
-                                .padding(horizontal = 12.dp, vertical = 4.dp)
+                                .padding(12.dp)
                                 .fillMaxWidth()
-                                .align(Alignment.CenterHorizontally),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = "Total Number of Mandal: ",
-                                fontWeight = FontWeight.W400,
-                                fontSize = 20.sp
-                            )
-                            Text(
-                                numberOfMandal.toString(),
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 20.sp
-                            )
+                                .align(Alignment.CenterHorizontally)
+                        ){
+
+
+                            Row(
+                                modifier = Modifier
+                                    .padding(horizontal = 12.dp, vertical = 4.dp)
+                                    .fillMaxWidth()
+                                    .align(Alignment.CenterHorizontally),
+                                horizontalArrangement = Arrangement.Center,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "Count of First audit done: ",
+                                    fontWeight = FontWeight.W400,
+                                    fontSize = 20.sp
+                                )
+                                Text(
+                                    text= countAudited.toString(),
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp
+                                )
+
+                            }
+
+                            Row(
+                                modifier = Modifier
+                                    .padding(horizontal = 12.dp, vertical = 4.dp)
+                                    .fillMaxWidth()
+                                    .align(Alignment.CenterHorizontally),
+                                horizontalArrangement = Arrangement.Center,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "Count of First audit not done: ",
+                                    fontWeight = FontWeight.W400,
+                                    fontSize = 20.sp
+                                )
+                                Text(
+                                    countNotAudited.toString(),
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp
+                                )
+                            }
+
+                            Row(
+                                modifier = Modifier
+                                    .padding(horizontal = 12.dp, vertical = 4.dp)
+                                    .fillMaxWidth()
+                                    .align(Alignment.CenterHorizontally),
+                                horizontalArrangement = Arrangement.Center,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "Total Number of Mandal Audited: ",
+                                    fontWeight = FontWeight.W400,
+                                    fontSize = 20.sp
+                                )
+
+                                Text(
+                                    numberOfMandal.toString(),
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp
+                                )
+
+
+                            }
                         }
+
+
                         AnimatedVisibility(visible = listOfMandals.isNotEmpty()) {
                             LazyColumn() {
                                 for (mandal in listOfMandals) {
