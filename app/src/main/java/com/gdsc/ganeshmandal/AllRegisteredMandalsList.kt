@@ -11,7 +11,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -30,13 +32,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.gdsc.ganeshmandal.model.Mandal
 import com.gdsc.ganeshmandal.ui.theme.GaneshMandalTheme
 import com.gdsc.ganeshmandal.ui.theme.MandalSingleRow
 import com.google.firebase.firestore.FirebaseFirestore
@@ -66,13 +68,22 @@ class AllRegisteredMandalsList : ComponentActivity() {
                     }
                     val db = FirebaseFirestore.getInstance()
                     val listOfMandal = ArrayList<Mandal>()
+
 //                    listOfMandals = listOfMandal
+                    //counting the number of mandal
+                    
+                    var numberofMandal by remember {
+                        mutableStateOf(0)
+                    }
+                    
                     var textFieldValue by remember {
                         mutableStateOf(TextFieldValue(""))
                     }
                     db.collection("mandals").get()
                         .addOnSuccessListener {docs->
+                            numberofMandal = docs.size()
                             for(doc in docs){
+
                                 listOfMandal.add(
                                     Mandal(
                                         mandalId = doc.id.toString(),
@@ -184,6 +195,18 @@ class AllRegisteredMandalsList : ComponentActivity() {
                                 .fillMaxWidth()
                                 .align(Alignment.CenterHorizontally)
                         )
+                        Row(
+                            modifier = Modifier
+                                .padding(horizontal = 12.dp, vertical = 4.dp)
+                                .fillMaxWidth()
+                                .align(Alignment.CenterHorizontally),
+                            horizontalArrangement =  Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(text = "Total number of Mandal Registered:", fontWeight = FontWeight.W400, fontSize = 20.sp )
+                            Text(text = numberofMandal.toString(), fontWeight = FontWeight.Bold,fontSize = 20.sp )
+                        }
+
                         AnimatedVisibility(visible = listOfMandals.isNotEmpty()) {
                             LazyColumn(){
                                 for(mandal in listOfMandals){
