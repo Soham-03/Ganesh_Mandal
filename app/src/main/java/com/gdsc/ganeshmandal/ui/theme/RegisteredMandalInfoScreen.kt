@@ -1,10 +1,7 @@
 package com.gdsc.ganeshmandal.ui.theme
 
-import android.app.DatePickerDialog
 import android.content.Intent
-import android.icu.util.Calendar
-import android.text.TextUtils
-import android.widget.DatePicker
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
@@ -13,11 +10,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
@@ -25,25 +22,38 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.gdsc.ganeshmandal.AdminLoginPage
+import com.gdsc.ganeshmandal.Global
 import com.gdsc.ganeshmandal.Mandal
+import com.gdsc.ganeshmandal.MandalFinalAuditForm
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisteredMandalInfoScreen(mandal: Mandal, firstAuditStatus: Boolean, secondAuditStatus: Boolean){
+    var status = remember {
+        mutableStateOf<Boolean>(true)
+    }
+    LaunchedEffect(Unit){
+        val db = FirebaseFirestore.getInstance()
+        checkAuditStatus(db, mandal.mandalId, status)
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -96,6 +106,21 @@ fun RegisteredMandalInfoScreen(mandal: Mandal, firstAuditStatus: Boolean, second
             enabled = false,
             label = {
                 Text(text = "Contact Person")
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        OutlinedTextField(
+            value = mandal.email,
+            onValueChange = {
+//                contactPerson = it
+            },
+            placeholder = {
+                Text(text = "Mandal Representative Email")
+            },
+            enabled = false,
+            label = {
+                Text(text = "Mandal Representative Email")
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -971,6 +996,24 @@ fun RegisteredMandalInfoScreen(mandal: Mandal, firstAuditStatus: Boolean, second
                 .fillMaxWidth()
         )
         val context = LocalContext.current
+        AsyncImage(
+            model = mandal.imageOfMandal,
+            contentDescription = "Image of Mandal",
+            modifier = Modifier
+                .size(220.dp)
+        )
+        Button(onClick = {
+            val intentUri = Uri.parse("google.navigation:q=${mandal.latitude},${mandal.longitude}")
+            val intent = Intent(Intent.ACTION_VIEW, intentUri)
+            intent.`package` = "com.google.android.apps.maps"
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(intent)
+        }) {
+            Column {
+                Text(text = "Latitude:"+mandal.latitude)
+                Text(text = "Longitude"+mandal.latitude)
+            }
+        }
         AnimatedVisibility(visible = firstAuditStatus) {
             Button(onClick ={
                 if(mandal.firstAuditStatus == "true"){
@@ -998,20 +1041,36 @@ fun RegisteredMandalInfoScreen(mandal: Mandal, firstAuditStatus: Boolean, second
 
         AnimatedVisibility(visible = secondAuditStatus) {
             Button(onClick ={
-                if(mandal.secondAuditStatus == "true"){
-
+                if(status.value){
+                    Toast.makeText(context, "You have already submitted the audit!", Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    val intent = Intent(context, AdminLoginPage::class.java)
+                    val intent = Intent(context, MandalFinalAuditForm::class.java)
                     context.startActivity(intent)
                 }
             }) {
                 Text(
-                    text = "Second Audit Status: "+mandal.secondAuditStatus,
+                    text = "Second Audit Status: ${status.value}",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
         }
     }
+}
+
+suspend fun checkAuditStatus(db: FirebaseFirestore, mandalId: String, status: MutableState<Boolean>){
+    status.value = false
+    db.collection("mandalsSelectedForNext")
+        .document(mandalId)
+        .collection("audits")
+        .document(Global.adminId.toString())
+        .get()
+        .addOnSuccessListener {
+            if(it.exists()){
+                status.value = true
+                println("Found:")
+            }
+        }
+        .await()
 }

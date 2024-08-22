@@ -14,7 +14,6 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -48,13 +47,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
-import com.gdsc.ganeshmandal.MainActivity
-import com.gdsc.ganeshmandal.R
-import com.github.drjacky.imagepicker.ImagePicker
-import com.google.firebase.firestore.FirebaseFirestore
 
 @RequiresApi(Build.VERSION_CODES.N)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,16 +55,6 @@ fun RegistrationForm(launcher: ActivityResultLauncher<Intent>, uriImageState: Mu
 
 }
 
-fun Context.getActivity(): AppCompatActivity? {
-    var currentContext = this
-    while (currentContext is ContextWrapper) {
-        if (currentContext is AppCompatActivity) {
-            return currentContext
-        }
-        currentContext = currentContext.baseContext
-    }
-    return null
-}
 
 @RequiresApi(Build.VERSION_CODES.N)
 @Preview

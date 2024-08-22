@@ -65,5 +65,10 @@ data class Mandal(
     val FirstAidYesorNo: String,
     val EmergencyTeamYesorNo: String,
     val totalScore: String,
-    val nameOf1stAuditor: String
+    val nameOf1stAuditor: String,
+    val latitude: String,
+    val longitude: String,
+    val imageOfMandal: String,
+    val finalAuditScore: String,
+    val email: String
 )

@@ -1,7 +1,6 @@
 package com.gdsc.ganeshmandal.ui.theme
 
 import android.content.Intent
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -15,20 +14,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gdsc.ganeshmandal.Global
+import com.gdsc.ganeshmandal.ListOfAuditsForSelectedMandal
 import com.gdsc.ganeshmandal.Mandal
+import com.gdsc.ganeshmandal.MandalFinalAudit
 import com.gdsc.ganeshmandal.RegisteredMandalInfo
 
 @Composable
-fun MandalSingleRow(
-    mandal: Mandal,
-    show1stAuditStatus: Boolean,
-    show2ndAuditStatus: Boolean,
-    listOfAuditId: ArrayList<String>?
-){
+fun MandalAuditSingleRow(mandal: Mandal){
     val context = LocalContext.current
     Card(
         border = BorderStroke(2.dp, color = if(isSystemInDarkTheme()){Purple80}else{Purple40}),
@@ -37,9 +32,8 @@ fun MandalSingleRow(
             .fillMaxWidth()
             .clickable {
                 Global.selectedMandal = mandal
-                val intent = Intent(context, RegisteredMandalInfo::class.java)
-                intent.putExtra("firstAuditStatus", show1stAuditStatus)
-                intent.putExtra("secondAuditStatus", show2ndAuditStatus)
+                println("Mandal Id:"+Global.selectedMandal!!.mandalId)
+                val intent = Intent(context, ListOfAuditsForSelectedMandal::class.java)
                 context.startActivity(intent)
             }
     ){
@@ -57,14 +51,8 @@ fun MandalSingleRow(
                     text = mandal.addOfMandal,
                     fontSize = 18.sp
                 )
-                AnimatedVisibility(visible = show1stAuditStatus) {
-                    Text(
-                        text = "First Audit Status: "+mandal.firstAuditStatus,
-                        fontSize = 18.sp
-                    )
-                }
             }
-            AnimatedVisibility(visible = show2ndAuditStatus) {
+            AnimatedVisibility(visible = true) {
                 if(mandal!=null){
                     Column {
                         Text(
@@ -72,7 +60,7 @@ fun MandalSingleRow(
                             fontSize = 18.sp
                         )
                         Text(
-                            text = "Total Score: "+mandal.totalScore,
+                            text = "Total Score: "+mandal.finalAuditScore,
                             fontSize = 18.sp
                         )
                     }
@@ -80,10 +68,4 @@ fun MandalSingleRow(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun MandalSingleRowPreview(){
-//    MandalSingleRow(mandal = Man)
 }

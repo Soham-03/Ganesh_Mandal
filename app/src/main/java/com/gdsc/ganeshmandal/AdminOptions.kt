@@ -74,6 +74,12 @@ fun AdminOptionsScreen(){
             }, ) {
                 Text(text = "View Top 20 Mandals\n(After 1st Audit)", fontSize = 24.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
             }
+            Button(onClick = {
+                val intent = Intent(context, MandalFinalListAfter2ndAudit::class.java)
+                context.startActivity(intent)
+            }, ) {
+                Text(text = "Final List\n(After 2nd Audit)", fontSize = 24.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+            }
         }
     }
 }

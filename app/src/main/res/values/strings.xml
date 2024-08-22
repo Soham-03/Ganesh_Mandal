@@ -12,4 +12,11 @@
         MandalsSelectedFor1stAuditList
     </string>
     <string name="title_activity_top20_mandals_after1st_audit">Top20MandalsAfter1stAudit</string>
+    <string name="title_activity_admin_login_id_pass">AdminLoginIdPass</string>
+    <string name="title_activity_mandal_final_list_after2nd_audit">MandalFinalListAfter2ndAudit
+    </string>
+    <string name="title_activity_mandal_final_audit_form">MandalFinalAuditForm</string>
+    <string name="title_activity_list_of_audits_for_selected_mandal">ListOfAuditsForSelectedMandal
+    </string>
+    <string name="title_activity_edit_audit">EditAuditActivity</string>
 </resources>

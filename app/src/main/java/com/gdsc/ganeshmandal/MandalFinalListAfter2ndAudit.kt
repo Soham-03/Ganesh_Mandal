@@ -34,15 +34,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gdsc.ganeshmandal.ui.theme.GaneshMandalTheme
+import com.gdsc.ganeshmandal.ui.theme.MandalAuditSingleRow
 import com.gdsc.ganeshmandal.ui.theme.MandalSingleRow
+import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
-class Top20MandalsAfter1stAudit : ComponentActivity() {
+class MandalFinalListAfter2ndAudit : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val db = FirebaseFirestore.getInstance()
             GaneshMandalTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -57,12 +60,10 @@ class Top20MandalsAfter1stAudit : ComponentActivity() {
                     var textFieldValue by remember {
                         mutableStateOf(TextFieldValue(""))
                     }
-                    db.collection("mandalsSelectedForNext").orderBy("totalScore", Query.Direction.DESCENDING)
-                        .limit(20)
-                        .get()
+                    db.collection("mandalsSelectedForNext").orderBy("finalAuditScore",Query.Direction.DESCENDING).get()
                         .addOnSuccessListener {docs->
                             for(doc in docs){
-                                if(doc["firstAuditStatus"].toString() == "true"){
+                                if(doc["secondAuditStatus"].toString() == "true"){
                                     listOfMandal.add(
                                         Mandal(
                                             mandalId = doc.id.toString(),
@@ -138,15 +139,15 @@ class Top20MandalsAfter1stAudit : ComponentActivity() {
                                         )
                                     )
                                 }
+                                println("Status: "+doc["firstAuditStatus"])
                             }
-                            println("List"+listOfMandal)
+//                            println("List"+)
+
                             if(TextUtils.isEmpty(textFieldValue.text)){
-                                val listOfMandalSorted = listOfMandal.sortedByDescending { it.totalScore.toInt() }
-                                listOfMandals = ArrayList(listOfMandalSorted)
+                                val sortedListOfMandals = listOfMandal.sortedByDescending { it.finalAuditScore.toInt() }
+                                listOfMandals = ArrayList(sortedListOfMandals)
                             }
-                        }
-                        .addOnFailureListener { e->
-                            e.printStackTrace()
+
                         }
                     Column(){
                         OutlinedTextField(
@@ -161,7 +162,7 @@ class Top20MandalsAfter1stAudit : ComponentActivity() {
                                 }
                             },
                             label = {
-                                Text(text = "Search Mandal")
+                                Text(text = "Serach Mandal")
                             },
                             trailingIcon = {
                                 Image(
@@ -182,7 +183,9 @@ class Top20MandalsAfter1stAudit : ComponentActivity() {
                             LazyColumn(){
                                 for(mandal in listOfMandals){
                                     item {
-                                        MandalSingleRow(mandal = mandal, show1stAuditStatus = false, show2ndAuditStatus = true, null)
+                                        MandalAuditSingleRow(
+                                            mandal = mandal
+                                        )
                                     }
                                 }
                             }
@@ -203,8 +206,7 @@ class Top20MandalsAfter1stAudit : ComponentActivity() {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview8() {
+fun GreetingPreview9() {
     GaneshMandalTheme {
-//        Greeting("Android")
     }
 }

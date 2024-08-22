@@ -125,7 +125,12 @@ class MandalsSelectedFor1stAuditList : ComponentActivity() {
                                         FirstAidYesorNo = doc["FirstAidYesorNo"].toString(),
                                         EmergencyTeamYesorNo = doc["EmergencyTeamYesorNo"].toString(),
                                         totalScore = doc["totalScore"].toString(),
-                                        nameOf1stAuditor = doc["nameOf1stAuditor"].toString()
+                                        nameOf1stAuditor = doc["nameOf1stAuditor"].toString(),
+                                        latitude = doc["latitude"].toString(),
+                                        longitude = doc["longitude"].toString(),
+                                        imageOfMandal = doc["imagMandal"].toString(),
+                                        finalAuditScore = doc["finalAuditScore"].toString(),
+                                        email = doc["mandalRepresentativeEmail"].toString()
                                     )
                                 )
                                 println("Status: "+doc["firstAuditStatus"])
@@ -159,8 +164,7 @@ class MandalsSelectedFor1stAuditList : ComponentActivity() {
                                     modifier = Modifier
                                         .clickable {
                                             listOfMandals = search(textFieldValue, listOfMandal)
-                                        },
-                                    colorFilter = ColorFilter.tint(Color.White),
+                                        }
                                 )
                             },
                             modifier = Modifier
@@ -172,7 +176,12 @@ class MandalsSelectedFor1stAuditList : ComponentActivity() {
                             LazyColumn(){
                                 for(mandal in listOfMandals){
                                     item {
-                                        MandalSingleRow(mandal = mandal, show1stAuditStatus = true, show2ndAuditStatus = false)
+                                        MandalSingleRow(
+                                            mandal = mandal,
+                                            show1stAuditStatus = true,
+                                            show2ndAuditStatus = false,
+                                            listOfAuditId = null
+                                        )
                                     }
                                 }
                             }
