@@ -18,9 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gdsc.ganeshmandal.Global
 import com.gdsc.ganeshmandal.ListOfAuditsForSelectedMandal
-import com.gdsc.ganeshmandal.Mandal
-import com.gdsc.ganeshmandal.MandalFinalAudit
-import com.gdsc.ganeshmandal.RegisteredMandalInfo
+import com.gdsc.ganeshmandal.model.Mandal
 
 @Composable
 fun MandalAuditSingleRow(mandal: Mandal){

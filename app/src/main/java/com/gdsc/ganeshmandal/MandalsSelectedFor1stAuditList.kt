@@ -7,7 +7,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,13 +28,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.gdsc.ganeshmandal.model.Mandal
 import com.gdsc.ganeshmandal.ui.theme.GaneshMandalTheme
 import com.gdsc.ganeshmandal.ui.theme.MandalSingleRow
 import com.google.firebase.firestore.FirebaseFirestore
@@ -45,20 +47,23 @@ class MandalsSelectedFor1stAuditList : ComponentActivity() {
             GaneshMandalTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     var listOfMandals by remember {
                         mutableStateOf(ArrayList<Mandal>())
+                    }
+                    // count the number of mandal
+                    var numberOfMandal by remember {
+                        mutableStateOf(0)
                     }
                     val db = FirebaseFirestore.getInstance()
                     val listOfMandal = ArrayList<Mandal>()
                     var textFieldValue by remember {
                         mutableStateOf(TextFieldValue(""))
                     }
-                    db.collection("mandalsSelectedForNext").get()
-                        .addOnSuccessListener {docs->
-                            for(doc in docs){
+                    db.collection("mandalsSelectedForNext").get().addOnSuccessListener { docs ->
+                            for (doc in docs) {
+                                numberOfMandal = docs.size()
                                 listOfMandal.add(
                                     Mandal(
                                         mandalId = doc.id.toString(),
@@ -93,25 +98,25 @@ class MandalsSelectedFor1stAuditList : ComponentActivity() {
                                         storageDetails = doc["storageDetails"].toString(),
                                         monitoringMethodology = doc["monitoringMethodology"].toString(),
                                         typeOfSpeaker1 = doc["typeOfSpeaker1"].toString(),
-                                        typeOfSpeaker1Quant= doc["typeOfSpeaker1Quant"].toString(),
-                                        typeOfSpeaker2= doc["typeOfSpeaker2"].toString(),
-                                        typeOfSpeaker2Quant= doc["typeOfSpeaker2Quant"].toString(),
-                                        announcingTeam= doc["announcingTeam"].toString(),
-                                        announcingTeamQuant= doc["announcingTeamQuant"].toString(),
-                                        typeOfDetector1= doc["typeOfDetector1"].toString(),
-                                        typeOfDetector1Quant= doc["typeOfDetector1Quant"].toString(),
-                                        typeOfDetector2= doc["typeOfDetector2"].toString(),
-                                        typeOfDetector2Quant= doc["typeOfDetector2Quant"].toString(),
-                                        typeOfSign1= doc["typeOfSign1"].toString(),
-                                        typeOfSign1Quant= doc["typeOfSign1Quant"].toString(),
-                                        typeOfSign2= doc["typeOfSign2"].toString(),
-                                        typeOfSign2Quant= doc["typeOfSign2Quant"].toString(),
-                                        firstAidKit= doc["firstAidKit"].toString(),
-                                        firstAidKitQuant= doc["firstAidKitQuant"].toString(),
-                                        emergencyEvacuationPlanDetails= doc["emergencyEvacuationPlanDetails"].toString(),
-                                        securityTeamDetails= doc["securityTeamDetails"].toString(),
-                                        trainingSecurityTeam= doc["trainingSecurityTeam"].toString(),
-                                        remarks= doc["remarks"].toString(),
+                                        typeOfSpeaker1Quant = doc["typeOfSpeaker1Quant"].toString(),
+                                        typeOfSpeaker2 = doc["typeOfSpeaker2"].toString(),
+                                        typeOfSpeaker2Quant = doc["typeOfSpeaker2Quant"].toString(),
+                                        announcingTeam = doc["announcingTeam"].toString(),
+                                        announcingTeamQuant = doc["announcingTeamQuant"].toString(),
+                                        typeOfDetector1 = doc["typeOfDetector1"].toString(),
+                                        typeOfDetector1Quant = doc["typeOfDetector1Quant"].toString(),
+                                        typeOfDetector2 = doc["typeOfDetector2"].toString(),
+                                        typeOfDetector2Quant = doc["typeOfDetector2Quant"].toString(),
+                                        typeOfSign1 = doc["typeOfSign1"].toString(),
+                                        typeOfSign1Quant = doc["typeOfSign1Quant"].toString(),
+                                        typeOfSign2 = doc["typeOfSign2"].toString(),
+                                        typeOfSign2Quant = doc["typeOfSign2Quant"].toString(),
+                                        firstAidKit = doc["firstAidKit"].toString(),
+                                        firstAidKitQuant = doc["firstAidKitQuant"].toString(),
+                                        emergencyEvacuationPlanDetails = doc["emergencyEvacuationPlanDetails"].toString(),
+                                        securityTeamDetails = doc["securityTeamDetails"].toString(),
+                                        trainingSecurityTeam = doc["trainingSecurityTeam"].toString(),
+                                        remarks = doc["remarks"].toString(),
                                         nameOfFSAIRepresentative = doc["nameOfFSAIRepresentative"].toString(),
                                         nameOfMandalRepresentative = doc["nameOfMandalRepresentative"].toString(),
                                         firstAuditStatus = doc["firstAuditStatus"].toString(),
@@ -133,24 +138,23 @@ class MandalsSelectedFor1stAuditList : ComponentActivity() {
                                         email = doc["mandalRepresentativeEmail"].toString()
                                     )
                                 )
-                                println("Status: "+doc["firstAuditStatus"])
+                                println("Status: " + doc["firstAuditStatus"])
                             }
 //                            println("List"+)
 
-                            if(TextUtils.isEmpty(textFieldValue.text)){
+                            if (TextUtils.isEmpty(textFieldValue.text)) {
                                 listOfMandals = listOfMandal
                             }
 
                         }
-                    Column(){
-                        OutlinedTextField(
-                            value = textFieldValue,
+                    Column() {
+                        OutlinedTextField(value = textFieldValue,
                             onValueChange = {
                                 textFieldValue = it
-                                listOfMandals = if(!TextUtils.isEmpty(textFieldValue.text)){
+                                listOfMandals = if (!TextUtils.isEmpty(textFieldValue.text)) {
                                     val list = search(it, listOfMandal)
                                     list
-                                } else{
+                                } else {
                                     listOfMandal
                                 }
                             },
@@ -158,29 +162,46 @@ class MandalsSelectedFor1stAuditList : ComponentActivity() {
                                 Text(text = "Serach Mandal")
                             },
                             trailingIcon = {
-                                Image(
-                                    imageVector = Icons.Outlined.Search,
+                                Image(imageVector = Icons.Outlined.Search,
                                     contentDescription = "Search button",
-                                    modifier = Modifier
-                                        .clickable {
+                                    modifier = Modifier.clickable {
                                             listOfMandals = search(textFieldValue, listOfMandal)
-                                        }
-                                )
+                                        })
                             },
                             modifier = Modifier
                                 .padding(12.dp)
                                 .fillMaxWidth()
                                 .align(Alignment.CenterHorizontally)
                         )
+                        Row(
+                            modifier = Modifier
+                                .padding(horizontal = 12.dp, vertical = 4.dp)
+                                .fillMaxWidth()
+                                .align(Alignment.CenterHorizontally),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Total Number of Mandal: ",
+                                fontWeight = FontWeight.W400,
+                                fontSize = 20.sp
+                            )
+                            Text(
+                                numberOfMandal.toString(),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp
+                            )
+                        }
                         AnimatedVisibility(visible = listOfMandals.isNotEmpty()) {
-                            LazyColumn(){
-                                for(mandal in listOfMandals){
+                            LazyColumn() {
+                                for (mandal in listOfMandals) {
                                     item {
                                         MandalSingleRow(
                                             mandal = mandal,
                                             show1stAuditStatus = true,
                                             show2ndAuditStatus = false,
-                                            listOfAuditId = null
+                                            listOfAuditId = null,
+                                            inRegistered = false
                                         )
                                     }
                                 }
@@ -201,10 +222,8 @@ class MandalsSelectedFor1stAuditList : ComponentActivity() {
 }
 
 
-
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview7() {
-    GaneshMandalTheme {
-    }
+    GaneshMandalTheme {}
 }

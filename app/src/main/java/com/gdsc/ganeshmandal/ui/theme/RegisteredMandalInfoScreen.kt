@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.gdsc.ganeshmandal.AdminLoginPage
 import com.gdsc.ganeshmandal.Global
-import com.gdsc.ganeshmandal.Mandal
+import com.gdsc.ganeshmandal.model.Mandal
 import com.gdsc.ganeshmandal.MandalFinalAuditForm
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
