@@ -1427,10 +1427,8 @@ class RegisterMandalActivity : ComponentActivity() {
                                     ) && !TextUtils.isEmpty(longitude.value)
                                 ) {
 
-                                    if (Patterns.EMAIL_ADDRESS.matcher(mandalRepresentativeEmail.toString()).matches()) {
-
+                                    if (Patterns.EMAIL_ADDRESS.matcher(mandalRepresentativeEmail.text).matches()) {
                                         println(Patterns.EMAIL_ADDRESS.matcher(mandalRepresentativeEmail.toString()).matches())
-
                                         progressState = true
                                         val reference =
                                             storage.reference.child("images/{${nameOfMandal.text}}")
@@ -1607,17 +1605,18 @@ class RegisterMandalActivity : ComponentActivity() {
                                                         }
                                                 }
                                             }
-                                    } else {
+                                    }
+                                    else {
                                         Toast.makeText(
-                                            context, "Some Fields are Missing", Toast.LENGTH_SHORT
+                                            context, "Email Not Valid", Toast.LENGTH_SHORT
                                         ).show()
                                     }
-                                } else {
+                                }
+                                else {
                                     Toast.makeText(
-                                        context, "Email Not Valid", Toast.LENGTH_SHORT
+                                        context, "Some Fields are Missing", Toast.LENGTH_SHORT
                                     ).show()
                                 }
-
 
                             }
 
