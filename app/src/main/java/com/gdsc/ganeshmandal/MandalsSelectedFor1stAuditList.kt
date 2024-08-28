@@ -262,7 +262,7 @@ class MandalsSelectedFor1stAuditList : ComponentActivity() {
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    text = "Total Number of Mandal Audited: ",
+                                    text = "Total No.of Mandal Audited: ",
                                     fontWeight = FontWeight.W400,
                                     fontSize = 20.sp
                                 )

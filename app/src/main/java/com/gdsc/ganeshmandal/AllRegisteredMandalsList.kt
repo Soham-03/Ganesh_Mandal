@@ -201,7 +201,7 @@ class AllRegisteredMandalsList : ComponentActivity() {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "Total number of Mandal Registered:",
+                                text = "Total no.of Mandal Registered:",
                                 fontWeight = FontWeight.W400,
                                 fontSize = 20.sp
                             )
