@@ -165,6 +165,18 @@ class RegisterMandalActivity : ComponentActivity() {
                         var mandalRepresentativeEmail by remember {
                             mutableStateOf(TextFieldValue(""))
                         }
+
+                        var sourceOfBackupPowerSupply by remember {
+                            mutableStateOf(TextFieldValue(""))
+                        }
+                        var earthingWireQuant by remember {
+                            mutableStateOf(TextFieldValue(""))
+                        }
+
+//                        val backupPowerSupplyYesOrNo:String,
+//                        val sourceOfBackupPowerSupply:String,
+
+
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
@@ -200,7 +212,8 @@ class RegisterMandalActivity : ComponentActivity() {
                                 Text(text = "Contact Person")
                             }, modifier = Modifier.fillMaxWidth()
                             )
-                            OutlinedTextField(value = mobileNo,
+                            OutlinedTextField(
+                                value = mobileNo,
                                 onValueChange = {
                                     if (it.text.length <= 10) mobileNo = it
                                 },
@@ -213,7 +226,8 @@ class RegisterMandalActivity : ComponentActivity() {
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                                 modifier = Modifier.fillMaxWidth()
                             )
-                            OutlinedTextField(value = mandalRepresentativeEmail,
+                            OutlinedTextField(
+                                value = mandalRepresentativeEmail,
                                 onValueChange = {
                                     mandalRepresentativeEmail = it
                                 },
@@ -367,6 +381,25 @@ class RegisterMandalActivity : ComponentActivity() {
                                 Text(text = "MCB / RCCB installed")
                             }, modifier = Modifier.fillMaxWidth()
                             )
+
+                            OutlinedTextField(value = sourceOfBackupPowerSupply, onValueChange = {
+                                sourceOfBackupPowerSupply = it
+                            }, placeholder = {
+                                Text(text = "Source of BackUp power")
+                            }, label = {
+                                Text(text = "Source of BackUp power")
+                            }, modifier = Modifier.fillMaxWidth()
+                            )
+
+                            OutlinedTextField(value = earthingWireQuant, onValueChange = {
+                                earthingWireQuant = it
+                            }, placeholder = {
+                                Text(text = "Earthing Wire Quantity")
+                            }, label = {
+                                Text(text = "Earthing Wire Quantity")
+                            }, modifier = Modifier.fillMaxWidth()
+                            )
+
                             var expanded by remember { mutableStateOf(false) }
                             var expanded1 by remember { mutableStateOf(false) }
                             var _24ElectricianYesOrNo by remember { mutableStateOf(yesOrNo[1]) }
@@ -409,6 +442,50 @@ class RegisterMandalActivity : ComponentActivity() {
                                     }
                                 }
                             }
+
+                            var backupPowerSupplyYesOrNo by remember { mutableStateOf(yesOrNo[1]) }
+                            var expandedbackupPowerSupply by remember { mutableStateOf(false) }
+
+                            Text(
+                                text = "BackUp Power Supply Yes/No", fontSize = 18.sp,
+                                textAlign = TextAlign.Start,
+                                modifier = Modifier.align(Alignment.Start)
+                            )
+//
+                            Box(
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                ExposedDropdownMenuBox(
+                                    expanded = expandedbackupPowerSupply, onExpandedChange = {
+                                        expandedbackupPowerSupply = !expandedbackupPowerSupply
+                                    }, modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    TextField(
+                                        value = backupPowerSupplyYesOrNo,
+                                        onValueChange = {},
+                                        readOnly = true,
+                                        trailingIcon = {
+                                            ExposedDropdownMenuDefaults.TrailingIcon(
+                                                expanded = expandedbackupPowerSupply
+                                            )
+                                        },
+                                        modifier = Modifier.menuAnchor()
+                                    )
+
+                                    ExposedDropdownMenu(expanded = expandedbackupPowerSupply,
+                                        onDismissRequest = { expandedbackupPowerSupply = false }) {
+                                        yesOrNo.forEach { item ->
+                                            DropdownMenuItem(text = { Text(text = item) },
+                                                onClick = {
+                                                    backupPowerSupplyYesOrNo = item
+                                                    expandedbackupPowerSupply = false
+                                                })
+                                        }
+                                    }
+                                }
+                            }
+
+
                             var properTerminationOfCables by remember {
                                 mutableStateOf(yesOrNo[1])
                             }
@@ -762,9 +839,9 @@ class RegisterMandalActivity : ComponentActivity() {
                                 OutlinedTextField(value = dvr, onValueChange = {
                                     dvr = it
                                 }, placeholder = {
-                                    Text(text = "DVR")
+                                    Text(text = "DVR/PVR")
                                 }, label = {
-                                    Text(text = "DVR")
+                                    Text(text = "DVR/PVR")
                                 }, modifier = Modifier.weight(2f)
                                 )
                                 OutlinedTextField(value = channels, onValueChange = {
@@ -1009,26 +1086,27 @@ class RegisterMandalActivity : ComponentActivity() {
                                 }, modifier = Modifier.weight(1f)
                                 )
                             }
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(4.dp)
-                            ) {
-                                OutlinedTextField(value = typeOfDetector2, onValueChange = {
-                                    typeOfDetector2 = it
-                                }, placeholder = {
-                                    Text(text = "Type of Detector (Bomb Detector)")
-                                }, label = {
-                                    Text(text = "Type of Detector (Bomb Detector)")
-                                }, modifier = Modifier.weight(2f)
-                                )
-                                OutlinedTextField(value = typeOfDetector2Quant, onValueChange = {
-                                    typeOfDetector2Quant = it
-                                }, placeholder = {
-                                    Text(text = "Quantity")
-                                }, label = {
-                                    Text(text = "Quantity")
-                                }, modifier = Modifier.weight(1f)
-                                )
-                            }
+
+//                            Row(
+//                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+//                            ) {
+//                                OutlinedTextField(value = typeOfDetector2, onValueChange = {
+//                                    typeOfDetector2 = it
+//                                }, placeholder = {
+//                                    Text(text = "Type of Detector (Bomb Detector)")
+//                                }, label = {
+//                                    Text(text = "Type of Detector (Bomb Detector)")
+//                                }, modifier = Modifier.weight(2f)
+//                                )
+//                                OutlinedTextField(value = typeOfDetector2Quant, onValueChange = {
+//                                    typeOfDetector2Quant = it
+//                                }, placeholder = {
+//                                    Text(text = "Quantity")
+//                                }, label = {
+//                                    Text(text = "Quantity")
+//                                }, modifier = Modifier.weight(1f)
+//                                )
+//                            }
                             //G. Banners and First Aid Kit
                             var typeOfSign1 by remember {
                                 mutableStateOf(TextFieldValue(""))
@@ -1209,7 +1287,8 @@ class RegisterMandalActivity : ComponentActivity() {
                                 }
                             }
 
-                            OutlinedTextField(value = emergencyEvacuationPlanDetails,
+                            OutlinedTextField(
+                                value = emergencyEvacuationPlanDetails,
                                 onValueChange = {
                                     emergencyEvacuationPlanDetails = it
                                 },
@@ -1397,8 +1476,6 @@ class RegisterMandalActivity : ComponentActivity() {
                                         announcingTeamQuant.text
                                     ) && !TextUtils.isEmpty(typeOfDetector1.text) && !TextUtils.isEmpty(
                                         typeOfDetector1Quant.text
-                                    ) && !TextUtils.isEmpty(typeOfDetector2.text) && !TextUtils.isEmpty(
-                                        typeOfDetector2Quant.text
                                     ) && !TextUtils.isEmpty(typeOfSign1.text) && !TextUtils.isEmpty(
                                         typeOfSign1Quant.text
                                     ) && !TextUtils.isEmpty(typeOfSign2.text) && !TextUtils.isEmpty(
@@ -1427,8 +1504,14 @@ class RegisterMandalActivity : ComponentActivity() {
                                     ) && !TextUtils.isEmpty(longitude.value)
                                 ) {
 
-                                    if (Patterns.EMAIL_ADDRESS.matcher(mandalRepresentativeEmail.text).matches()) {
-                                        println(Patterns.EMAIL_ADDRESS.matcher(mandalRepresentativeEmail.toString()).matches())
+                                    if (Patterns.EMAIL_ADDRESS.matcher(mandalRepresentativeEmail.text)
+                                            .matches()
+                                    ) {
+                                        println(
+                                            Patterns.EMAIL_ADDRESS.matcher(
+                                                mandalRepresentativeEmail.toString()
+                                            ).matches()
+                                        )
                                         progressState = true
                                         val reference =
                                             storage.reference.child("images/{${nameOfMandal.text}}")
@@ -1456,6 +1539,9 @@ class RegisterMandalActivity : ComponentActivity() {
                                                         mcb_mccbInstalled.text
                                                     hashMap["_24ElectricianYesOrNo"] =
                                                         _24ElectricianYesOrNo
+                                                    hashMap["backupPowerSupplyYesOrNo"] = backupPowerSupplyYesOrNo
+                                                    hashMap["sourceOfBackupPowerSupply"] = sourceOfBackupPowerSupply.text
+                                                    hashMap["earthingWireQuant"] = earthingWireQuant.text
                                                     hashMap["properTerminationOfCables"] =
                                                         properTerminationOfCables
                                                     hashMap["fireExtin1"] = fireExtin1.text
@@ -1605,14 +1691,12 @@ class RegisterMandalActivity : ComponentActivity() {
                                                         }
                                                 }
                                             }
-                                    }
-                                    else {
+                                    } else {
                                         Toast.makeText(
                                             context, "Email Not Valid", Toast.LENGTH_SHORT
                                         ).show()
                                     }
-                                }
-                                else {
+                                } else {
                                     Toast.makeText(
                                         context, "Some Fields are Missing", Toast.LENGTH_SHORT
                                     ).show()
