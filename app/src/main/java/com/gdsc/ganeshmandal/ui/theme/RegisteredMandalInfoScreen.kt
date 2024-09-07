@@ -251,6 +251,36 @@ fun RegisteredMandalInfoScreen(mandal: Mandal, firstAuditStatus: Boolean, second
             modifier = Modifier
                 .fillMaxWidth()
         )
+        OutlinedTextField(
+            value = mandal.sourceOfBackupPowerSupply,
+            onValueChange = {
+//                mcb_mccbInstalled = it
+            },
+            placeholder = {
+                Text(text = "Source of BackUp power")
+            },
+            label = {
+                Text(text = "Source of BackUp power")
+            },
+            enabled = false,
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        OutlinedTextField(
+            value = mandal.earthingWireQuant,
+            onValueChange = {
+//                mcb_mccbInstalled = it
+            },
+            placeholder = {
+                Text(text = "Earthing Wire Quantity")
+            },
+            label = {
+                Text(text = "Earthing Wire Quantity")
+            },
+            enabled = false,
+            modifier = Modifier
+                .fillMaxWidth()
+        )
         Text(
             text = "24x7 Electrician Yes/No",
             fontSize = 18.sp,
@@ -272,6 +302,35 @@ fun RegisteredMandalInfoScreen(mandal: Mandal, firstAuditStatus: Boolean, second
             ) {
                 TextField(
                     value = mandal._24ElectricianYesOrNo,
+                    onValueChange = {},
+                    readOnly = true,
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = false) },
+                    modifier = Modifier.menuAnchor()
+                )
+            }
+        }
+
+        Text(
+            text = "BackUp Power Supply",
+            fontSize = 18.sp,
+            textAlign = TextAlign.Start,
+            modifier = Modifier
+                .align(Alignment.Start)
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            ExposedDropdownMenuBox(
+                expanded = false,
+                onExpandedChange = {
+//                    expanded = !expanded
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                TextField(
+                    value = mandal.backupPowerSupplyYesOrNo,
                     onValueChange = {},
                     readOnly = true,
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = false) },
@@ -537,11 +596,11 @@ fun RegisteredMandalInfoScreen(mandal: Mandal, firstAuditStatus: Boolean, second
 //                    dvr = it
                 },
                 placeholder = {
-                    Text(text = "DVR")
+                    Text(text = "DVR/PVR")
                 },
                 enabled = false,
                 label = {
-                    Text(text = "DVR")
+                    Text(text = "DVR/PVR")
                 },
                 modifier = Modifier
                     .weight(2f)
@@ -754,40 +813,40 @@ fun RegisteredMandalInfoScreen(mandal: Mandal, firstAuditStatus: Boolean, second
                     .weight(1f)
             )
         }
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ){
-            OutlinedTextField(
-                value = mandal.typeOfDetector2,
-                onValueChange = {
-//                    typeOfDetector2 = it
-                },
-                placeholder = {
-                    Text(text = "Type of Detector")
-                },
-                label = {
-                    Text(text = "Type of Detector")
-                },
-                enabled = false,
-                modifier = Modifier
-                    .weight(2f)
-            )
-            OutlinedTextField(
-                value = mandal.typeOfDetector2Quant,
-                onValueChange = {
-//                    typeOfDetector2Quant = it
-                },
-                enabled = false,
-                placeholder = {
-                    Text(text = "Quantity")
-                },
-                label = {
-                    Text(text = "Quantity")
-                },
-                modifier = Modifier
-                    .weight(1f)
-            )
-        }
+//        Row(
+//            horizontalArrangement = Arrangement.spacedBy(4.dp)
+//        ){
+//            OutlinedTextField(
+//                value = mandal.typeOfDetector2,
+//                onValueChange = {
+////                    typeOfDetector2 = it
+//                },
+//                placeholder = {
+//                    Text(text = "Type of Detector")
+//                },
+//                label = {
+//                    Text(text = "Type of Detector")
+//                },
+//                enabled = false,
+//                modifier = Modifier
+//                    .weight(2f)
+//            )
+//            OutlinedTextField(
+//                value = mandal.typeOfDetector2Quant,
+//                onValueChange = {
+////                    typeOfDetector2Quant = it
+//                },
+//                enabled = false,
+//                placeholder = {
+//                    Text(text = "Quantity")
+//                },
+//                label = {
+//                    Text(text = "Quantity")
+//                },
+//                modifier = Modifier
+//                    .weight(1f)
+//            )
+//        }
         //G. Banners and First Aid Kit
         Text(
             text = "G. Banners and FirstAid Kit",
